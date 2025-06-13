@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "lint": "eslint \"**/*.{js,vue,cjs,mjs}\"",
     "format": "prettier --write \"src/**/*.{js,vue,json,css,scss,md}\""
   },
   "dependencies": {
@@ -20,6 +21,10 @@
     "prettier": "^3.5.3",
     "sass": "^1.89.2",
     "sass-loader": "^10.5.2",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "eslint": "^8.56.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0"
   }
 }

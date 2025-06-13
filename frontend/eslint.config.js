@@ -11,7 +11,6 @@ export default [
       parserOptions: {
         ecmaVersion: 2020,
         sourceType: 'module',
-        parser: '@babel/eslint-parser',
       },
     },
     plugins: {
@@ -19,21 +18,30 @@ export default [
       prettier: prettierPlugin,
     },
     rules: {
-      ...vue.configs['vue3-essential'].rules,
-      ...vuePlugin.configs.base.rules,
-      ...vuePlugin.configs['vue3-recommended'].rules,
+      ...vuePlugin.configs['vue3-essential'].rules,
       'prettier/prettier': 'error',
     },
   },
   {
-    files: ['**/*.js'],
+    files: ['**/*.{js,cjs,mjs}'],
     languageOptions: {
       ecmaVersion: 2020,
       sourceType: 'module',
+      globals: {
+        // browser & node globals similar to env settings in old .eslintrc
+        window: 'readonly',
+        document: 'readonly',
+        module: 'readonly',
+        process: 'readonly',
+      },
+    },
+    plugins: {
+      prettier: prettierPlugin,
     },
     rules: {
       'no-console': 'warn',
       'no-unused-vars': 'warn',
+      'prettier/prettier': 'error',
     },
   },
 ]
