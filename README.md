@@ -10,7 +10,10 @@ fullstack-shopping-app/
 │   ├── app/         # Application code
 │   ├── routes/      # API routes
 │   ├── database/    # Database migrations
-│   └── public/      # Public assets
+│   └── public/      # Public assets (Laravel)
+├── frontend/        # Vue 3 SPA (Vite)
+│   ├── src/         # App source (components, views, stores)
+│   └── public/      # Static assets
 ```
 
 ## Prerequisites
@@ -18,6 +21,8 @@ fullstack-shopping-app/
 - PHP 8.3+
 - MySQL 8.0+
 - Composer
+- Node.js 20+
+- npm 10+
 
 ## Backend Setup
 
@@ -59,6 +64,33 @@ fullstack-shopping-app/
 
 The backend API will be available at `http://localhost:8000`
 
+## Frontend Setup
+
+1. Install dependencies:
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   The app will be available at `http://localhost:5173`
+
+3. Lint & format code:
+   ```bash
+   npm run lint
+   npm run format
+   ```
+
+### Frontend Tech Stack
+- Vue 3 + Vite
+- Pinia
+- Vue Router
+- Vuetify 3
+- ESLint (Flat config) & Prettier
+
 ## API Documentation
 
 The API structure is in progress. The following endpoints will be implemented:
@@ -72,4 +104,3 @@ The API structure is in progress. The following endpoints will be implemented:
 - All sensitive data is encrypted
 - CSRF protection is enabled
 - SQL injection prevention is implemented
-
