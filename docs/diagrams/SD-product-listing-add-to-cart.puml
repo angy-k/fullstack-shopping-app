@@ -1,0 +1,20 @@
+@startuml
+actor User
+participant "Frontend (Vue.js)" as FE
+participant "Backend API (Laravel)" as BE
+database Database
+
+== Product Listing ==
+User -> FE: Visit products page
+FE -> BE: GET /api/products
+BE -> Database: Fetch products
+BE --> FE: JSON product list
+FE --> User: Render product grid
+
+== Add to Cart ==
+User -> FE: Click "Add to Cart"
+FE -> BE: POST /api/cart/add (productId, qty)
+BE -> Database: Add or update CartItem
+BE --> FE: 200 OK
+FE --> User: Update cart badge
+@enduml

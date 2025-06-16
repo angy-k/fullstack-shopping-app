@@ -1,0 +1,17 @@
+@startuml
+actor User
+participant "Frontend (Vue.js)" as FE
+participant "Backend API (Laravel)" as BE
+database Database
+
+User -> FE: Submit login form
+FE -> BE: POST /api/login
+BE -> Database: Check credentials
+alt Valid
+    BE --> FE: 200 OK + auth token
+    FE --> User: Redirect to homepage
+else Invalid
+    BE --> FE: 401 Unauthorized
+    FE --> User: Show login error
+end
+@enduml

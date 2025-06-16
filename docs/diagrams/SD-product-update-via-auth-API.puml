@@ -1,0 +1,13 @@
+@startuml
+actor Admin
+participant "Frontend (Vue.js)" as FE
+participant "Backend API (Laravel)" as BE
+database Database
+
+Admin -> FE: Submit product update
+FE -> BE: PUT /api/products/{id} + token
+BE -> BE: Validate token & data
+BE -> Database: Update product
+BE --> FE: 200 OK + updated product
+FE --> Admin: Show success message
+@enduml

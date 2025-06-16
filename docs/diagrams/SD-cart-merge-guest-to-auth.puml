@@ -1,0 +1,28 @@
+@startuml
+actor GuestUser
+participant "Frontend (Vue.js)" as FE
+participant "Backend API (Laravel)" as BE
+database Database
+
+== Add as Guest ==
+GuestUser -> FE: Click "Add to Cart"
+FE -> FE: Save to localStorage
+FE --> GuestUser: Show updated cart
+
+== Login ==
+GuestUser -> FE: Log in with credentials
+FE -> BE: POST /api/login
+BE -> Database: Validate user
+BE --> FE: 200 OK + token
+
+== Cart Merge ==
+FE -> BE: GET /api/cart (user's DB cart)
+BE -> Database: Return CartItems
+BE --> FE: JSON cart data
+
+FE -> FE: Merge with localStorage cart
+FE -> BE: POST /api/cart/sync
+BE -> Database: Save merged cart
+FE -> FE: Clear localStorage
+FE --> GuestUser: Show updated cart
+@enduml

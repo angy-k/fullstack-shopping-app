@@ -14,6 +14,10 @@ fullstack-shopping-app/
 ├── frontend/        # Vue 3 SPA (Vite)
 │   ├── src/         # App source (components, views, stores)
 │   └── public/      # Static assets
+├── docs/            # Project documentation
+│   ├── diagrams/    # System architecture details
+│   ├── architecture.md  # System architecture details
+│   └── planning.md      # Project planning and roadmap
 ```
 
 ## Prerequisites
@@ -90,6 +94,14 @@ The backend API will be available at `http://localhost:8000`
 - Vue Router
 - Vuetify 3
 - ESLint (Flat config) & Prettier
+
+## Documentation
+
+Detailed documentation about the project can be found in the `docs/` directory:
+
+- [Architecture](./docs/architecture.md) - System design, component interactions, and technical decisions
+- [Planning](./docs/planning.md) - Project roadmap, milestones, and development plans
+- [Diagrams](./docs/diagrams/) - Visual representations including ER diagram and sequence diagrams
 
 ## API Documentation
 

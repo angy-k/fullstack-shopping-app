@@ -1,0 +1,22 @@
+@startuml
+actor User
+participant "Frontend (Vue.js)" as FE
+participant "Backend API (Laravel)" as BE
+database Database
+
+User -> FE: Click "Checkout"
+FE -> BE: POST /api/orders (cart data)
+BE -> Database: Validate user & cart
+BE -> Database: Check product stock
+
+alt All stock available
+    BE -> Database: Create Order + OrderItems
+    BE -> Database: Decrement stock
+    BE -> Database: Clear user cart
+    BE --> FE: 200 OK (order details)
+else Stock missing
+    BE --> FE: 422 Error (stock issue)
+end
+
+FE --> User: Show confirmation or error
+@enduml

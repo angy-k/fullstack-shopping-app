@@ -1,0 +1,21 @@
+@startuml
+actor Developer
+participant "Laravel CLI (artisan)" as CLI
+participant "Fake Store API" as FakeAPI
+database Database
+
+Developer -> CLI: Run import command
+CLI -> FakeAPI: GET /products
+FakeAPI --> CLI: List of products
+
+loop For each product
+    CLI -> Database: Check if product exists (by external ID)
+    alt Exists
+        CLI -> Database: Update if changed
+    else Not exists
+        CLI -> Database: Insert new product
+    end
+end
+
+CLI --> Developer: Output: Sync complete
+@enduml
