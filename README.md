@@ -95,6 +95,75 @@ The backend API will be available at `http://localhost:8000`
 - Vuetify 3
 - ESLint (Flat config) & Prettier
 
+## Docker Setup
+
+### Quick Start
+
+To quickly start all services with Docker:
+
+```bash
+docker compose up --build
+```
+
+This will build and start all containers. The application will be available at:
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8000/api
+- MySQL Database: localhost:3306
+
+To stop all containers:
+
+```bash
+docker compose down
+```
+
+To rebuild containers after changes:
+
+```bash
+docker compose up --build
+```
+
+### Docker Services
+
+| Service   | Description                      | Port  | Environment Variables                   |
+|-----------|----------------------------------|-------|----------------------------------------|
+| `mysql`   | MySQL 8.0 database              | 3306  | MYSQL_DATABASE, MYSQL_USER, etc.       |
+| `backend` | Laravel API with PHP 8.3        | 8000  | DB_HOST, APP_URL, etc.                 |
+| `frontend`| Nginx-served Vue 3 application   | 5173  | VITE_API_URL                           |
+
+### Environment Variables
+
+#### Backend (.env)
+
+Key environment variables for the backend:
+
+```
+DB_HOST=mysql  # Use 'mysql' as hostname when running in Docker
+DB_PORT=3306
+DB_DATABASE=shop
+DB_USERNAME=shop
+DB_PASSWORD=shop123
+```
+
+#### Frontend (.env)
+
+Key environment variables for the frontend:
+
+```
+VITE_API_URL=http://localhost:8000/api  # URL for API requests
+```
+
+### Development vs Production
+
+- **Development**: The setup includes volume mounts for live code changes
+- **Production**: For production, you would want to modify the Dockerfiles to build optimized images
+
+### Troubleshooting
+
+- **Database Connection Issues**: Ensure the backend's .env file has `DB_HOST=mysql`
+- **API Connection Issues**: Check that frontend's .env has the correct `VITE_API_URL`
+- **Container Health**: Use `docker compose ps` to check container status
+- **Logs**: Use `docker compose logs [service]` to view specific service logs
+
 ## Documentation
 
 Detailed documentation about the project can be found in the `docs/` directory:
