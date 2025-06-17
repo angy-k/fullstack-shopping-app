@@ -174,14 +174,22 @@ Detailed documentation about the project can be found in the `docs/` directory:
 
 ## API Documentation
 
-The API structure is in progress. The following endpoints will be implemented:
+The following API endpoints have been implemented:
 
-- Authentication
+### Authentication
+- `POST /api/login` - Authenticate user and return token
+- `POST /api/register` - Register new user and return token
+- `POST /api/logout` - Invalidate user token (requires authentication)
+- `GET /api/user` - Get authenticated user details (requires authentication)
+- `GET /sanctum/csrf-cookie` - Get CSRF cookie for CSRF protection
 
 
 ## Security Notes
 
-- The application uses Laravel Sanctum for API authentication
+- The application uses Laravel Sanctum for API authentication with token-based auth
+- SPA authentication is configured with stateful domains for secure cookie handling
+- CSRF protection is enabled with dedicated endpoints for CSRF cookie generation
+- Token-based API authentication with Bearer tokens for mobile/API clients
+- Secure password hashing with bcrypt
 - All sensitive data is encrypted
-- CSRF protection is enabled
-- SQL injection prevention is implemented
+- SQL injection prevention through Laravel's query builder and Eloquent ORM
