@@ -21,8 +21,17 @@ fullstack-shopping-app/
 │ └── database/migrations/
 ├── frontend/ # Vue 3 + Vuetify SPA
 │ ├── src/components
-│ ├── src/stores
+│ │ ├── global/     # Globally registered components
+│ │ └── skeletons/  # Loading skeleton components
+│ │     ├── auth/      # Auth-related skeletons
+│ │     ├── ui/        # UI-related skeletons
+│ │     └── common/    # Base skeleton components
+│ ├── src/layouts    # Application layouts
 │ ├── src/views
+│ │ └── auth/      # Authentication views
+│ ├── src/stores
+│ ├── src/router
+│ ├── src/utils
 │ └── src/services
 ├── docs/ # Planning, diagrams
 │ └── diagrams/
@@ -88,6 +97,28 @@ fullstack-shopping-app/
 - **Vue + Vuetify**: Bootstrap-Vue is not compatible with Vue 3
 - **Cart expiration**: DB items expire after 3 days via timestamp/cron logic
 - **Stock**: Each product has a stock column to prevent over-purchase
+
+## Frontend Architecture
+
+### Component Organization
+
+- **Feature-Based Structure**: Components are organized by domain/feature rather than type
+- **Skeleton Loaders**: Centralized in `components/skeletons/` with domain-specific subfolders
+- **Global Components**: Automatically registered from `components/global/` directory
+
+### Layout System
+
+- **Multiple Layouts**: 
+  - `AppLayout`: Main application layout with navigation
+  - `AuthLayout`: Minimal layout for authentication pages
+  - `ErrorLayout`: Specialized layout for error pages
+- **Dynamic Layout Rendering**: App.vue dynamically renders layouts based on route metadata
+
+### Dynamic Component Registration
+
+- **Auto-Registration**: Global components are automatically discovered and registered
+- **Implementation**: Uses Vite's `import.meta.glob` feature in `utils/globalComponents.js`
+- **Benefits**: Reduces boilerplate, improves maintainability as the app grows
 
 ---
 

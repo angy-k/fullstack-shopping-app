@@ -4,21 +4,13 @@ Demo fullstack shopping app with Laravel API &amp; Vue.js frontend, featuring pr
 
 ## Project Structure
 
-```
-fullstack-shopping-app/
-├── backend/          # Laravel API backend
-│   ├── app/         # Application code
-│   ├── routes/      # API routes
-│   ├── database/    # Database migrations
-│   └── public/      # Public assets (Laravel)
-├── frontend/        # Vue 3 SPA (Vite)
-│   ├── src/         # App source (components, views, stores)
-│   └── public/      # Static assets
-├── docs/            # Project documentation
-│   ├── diagrams/    # System architecture details
-│   ├── architecture.md  # System architecture details
-│   └── planning.md      # Project planning and roadmap
-```
+This project is organized as a monorepo with three main directories:
+
+- `backend/` - Laravel API backend
+- `frontend/` - Vue 3 SPA with Vite
+- `docs/` - Project documentation and diagrams
+
+> For detailed project structure and architecture information, see [docs/architecture.md](docs/architecture.md)
 
 ## Prerequisites
 

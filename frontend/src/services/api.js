@@ -5,6 +5,9 @@
 // Base API URL from environment variables
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
+// Ensure API_URL doesn't have a trailing slash
+const normalizedApiUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
+
 /**
  * Handles API requests with automatic JSON parsing and error handling
  * @param {string} endpoint - API endpoint (without the base URL)
@@ -12,7 +15,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
  * @returns {Promise<any>} - Response data
  */
 async function apiRequest(endpoint, options = {}) {
-  const url = `${API_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+  const url = `${normalizedApiUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
   
   // Default headers
   const headers = {
@@ -20,6 +23,20 @@ async function apiRequest(endpoint, options = {}) {
     'Accept': 'application/json',
     ...options.headers,
   };
+
+  // Add auth token if available
+  const token = localStorage.getItem('auth_token');
+  if (token && !headers['Authorization']) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  
+  // Add CSRF token from cookies if available
+  const cookies = document.cookie.split(';');
+  const xsrfCookie = cookies.find(cookie => cookie.trim().startsWith('XSRF-TOKEN='));
+  if (xsrfCookie) {
+    const xsrfToken = decodeURIComponent(xsrfCookie.split('=')[1]);
+    headers['X-XSRF-TOKEN'] = xsrfToken;
+  }
 
   // Include credentials for cookies/session
   const config = {
