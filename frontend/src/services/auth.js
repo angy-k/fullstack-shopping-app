@@ -1,7 +1,7 @@
 /**
  * Authentication service for handling user authentication
  */
-import { api } from './api';
+import { api } from './api'
 
 /**
  * Authentication service with methods for login, registration, and user management
@@ -13,26 +13,27 @@ export const authService = {
    */
   getCsrfCookie: async () => {
     // Extract the base URL without the /api suffix
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
-    const baseUrl = apiUrl.endsWith('/api') ? apiUrl.slice(0, -4) : apiUrl;
-    
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+    const baseUrl = apiUrl.endsWith('/api') ? apiUrl.slice(0, -4) : apiUrl
+
     // Make sure to wait for the response
     const response = await fetch(`${baseUrl}/sanctum/csrf-cookie`, {
       credentials: 'include',
       headers: {
-        'Accept': 'application/json',
-      }
-    });
-    
+        Accept: 'application/json',
+      },
+    })
+
     if (!response.ok) {
-      console.error('Failed to fetch CSRF cookie:', response.status);
-      throw new Error('Failed to fetch CSRF cookie');
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch CSRF cookie:', response.status)
+      throw new Error('Failed to fetch CSRF cookie')
     }
-    
+
     // Small delay to ensure cookie is set
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    return response;
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    return response
   },
 
   /**
@@ -42,12 +43,12 @@ export const authService = {
    * @param {string} credentials.password - User password
    * @returns {Promise<Object>} - User data and token
    */
-  login: async (credentials) => {
+  login: async credentials => {
     // Get CSRF cookie first
-    await authService.getCsrfCookie();
-    
+    await authService.getCsrfCookie()
+
     // Then login
-    return api.post('auth/login', credentials);
+    return api.post('auth/login', credentials)
   },
 
   /**
@@ -59,12 +60,12 @@ export const authService = {
    * @param {string} userData.password_confirmation - Password confirmation
    * @returns {Promise<Object>} - User data and token
    */
-  register: async (userData) => {
+  register: async userData => {
     // Get CSRF cookie first
-    await authService.getCsrfCookie();
-    
+    await authService.getCsrfCookie()
+
     // Then register
-    return api.post('auth/register', userData);
+    return api.post('auth/register', userData)
   },
 
   /**
@@ -72,7 +73,7 @@ export const authService = {
    * @returns {Promise<Object>} - Logout response
    */
   logout: () => {
-    return api.post('auth/logout');
+    return api.post('auth/logout')
   },
 
   /**
@@ -80,7 +81,7 @@ export const authService = {
    * @returns {Promise<Object>} - User data
    */
   getUser: () => {
-    return api.get('auth/user');
+    return api.get('auth/user')
   },
 
   /**
@@ -88,15 +89,15 @@ export const authService = {
    * @returns {boolean} - True if user is authenticated
    */
   isAuthenticated: () => {
-    return !!localStorage.getItem('auth_token');
+    return !!localStorage.getItem('auth_token')
   },
 
   /**
    * Set authentication token in localStorage
    * @param {string} token - Authentication token
    */
-  setToken: (token) => {
-    localStorage.setItem('auth_token', token);
+  setToken: token => {
+    localStorage.setItem('auth_token', token)
   },
 
   /**
@@ -104,15 +105,15 @@ export const authService = {
    * @returns {string|null} - Authentication token or null
    */
   getToken: () => {
-    return localStorage.getItem('auth_token');
+    return localStorage.getItem('auth_token')
   },
 
   /**
    * Remove authentication token from localStorage
    */
   removeToken: () => {
-    localStorage.removeItem('auth_token');
-  }
-};
+    localStorage.removeItem('auth_token')
+  },
+}
 
-export default authService;
+export default authService

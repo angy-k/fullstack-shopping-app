@@ -4,14 +4,19 @@
  */
 
 export function registerGlobalComponents(app) {
-  const components = import.meta.glob('@/components/global/*.vue', { eager: true });
-  
+  const components = import.meta.glob('@/components/global/*.vue', {
+    eager: true,
+  })
+
   // Register each component globally
   Object.entries(components).forEach(([path, component]) => {
     // Extract component name from path
-    const componentName = path.split('/').pop().replace(/\.\w+$/, '');
-    
+    const componentName = path
+      .split('/')
+      .pop()
+      .replace(/\.\w+$/, '')
+
     // Register the component
-    app.component(componentName, component.default);
-  });
+    app.component(componentName, component.default)
+  })
 }

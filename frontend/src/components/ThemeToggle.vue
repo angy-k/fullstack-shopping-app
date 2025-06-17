@@ -11,28 +11,28 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue';
-import { useTheme } from 'vuetify';
+import { ref, onMounted, watch, computed } from 'vue'
+import { useTheme } from 'vuetify'
 
-const theme = useTheme();
-const isDark = ref(false);
+const theme = useTheme()
+const isDark = ref(false)
 
 /**
  * Computed property to ensure icon has good contrast against background
  */
 const iconColor = computed(() => {
-  return isDark.value ? 'amber-lighten-1' : 'indigo-lighten-2';
-});
+  return isDark.value ? 'amber-lighten-1' : 'indigo-lighten-2'
+})
 
 /**
  * Toggle between light and dark themes
  */
 function toggleTheme() {
-  isDark.value = !isDark.value;
-  theme.global.name.value = isDark.value ? 'darkTheme' : 'lightTheme';
-  
+  isDark.value = !isDark.value
+  theme.global.name.value = isDark.value ? 'darkTheme' : 'lightTheme'
+
   // Save preference to localStorage
-  localStorage.setItem('theme-preference', theme.global.name.value);
+  localStorage.setItem('theme-preference', theme.global.name.value)
 }
 
 /**
@@ -40,33 +40,37 @@ function toggleTheme() {
  */
 function loadThemePreference() {
   // Check for saved preference
-  const savedTheme = localStorage.getItem('theme-preference');
-  
+  const savedTheme = localStorage.getItem('theme-preference')
+
   if (savedTheme) {
     // Use saved preference
-    theme.global.name.value = savedTheme;
-    isDark.value = savedTheme === 'darkTheme';
+    theme.global.name.value = savedTheme
+    isDark.value = savedTheme === 'darkTheme'
   } else {
     // Check for system preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    isDark.value = prefersDark;
-    theme.global.name.value = prefersDark ? 'darkTheme' : 'lightTheme';
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches
+    isDark.value = prefersDark
+    theme.global.name.value = prefersDark ? 'darkTheme' : 'lightTheme'
   }
 }
 
 // Watch for system preference changes
 onMounted(() => {
-  loadThemePreference();
-  
+  loadThemePreference()
+
   // Listen for system theme changes
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    // Only update if user hasn't set a preference
-    if (!localStorage.getItem('theme-preference')) {
-      isDark.value = e.matches;
-      theme.global.name.value = e.matches ? 'darkTheme' : 'lightTheme';
-    }
-  });
-});
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', e => {
+      // Only update if user hasn't set a preference
+      if (!localStorage.getItem('theme-preference')) {
+        isDark.value = e.matches
+        theme.global.name.value = e.matches ? 'darkTheme' : 'lightTheme'
+      }
+    })
+})
 </script>
 
 <style scoped>

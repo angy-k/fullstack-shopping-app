@@ -7,21 +7,21 @@
           <div class="mb-2">
             <logo-skeleton size="medium" />
           </div>
-          
+
           <!-- Title Skeleton -->
           <div class="d-flex justify-center mb-6">
             <skeleton-loader height="30px" width="180px" border-radius="4px" />
           </div>
-          
+
           <!-- Form Fields Skeletons -->
           <div class="mb-6">
             <skeleton-loader height="56px" border-radius="4px" class="mb-4" />
             <skeleton-loader height="56px" border-radius="4px" class="mb-4" />
           </div>
-          
+
           <!-- Button Skeleton -->
           <skeleton-loader height="48px" border-radius="4px" class="mb-4" />
-          
+
           <!-- Back to Login Link Skeleton -->
           <div class="d-flex justify-center mt-4">
             <skeleton-loader height="20px" width="140px" border-radius="4px" />
@@ -33,6 +33,6 @@
 </template>
 
 <script setup>
-import SkeletonLoader from '@/components/skeletons/common/SkeletonLoader.vue';
-import LogoSkeleton from '@/components/skeletons/ui/LogoSkeleton.vue';
+import SkeletonLoader from '@/components/skeletons/common/SkeletonLoader.vue'
+import LogoSkeleton from '@/components/skeletons/ui/LogoSkeleton.vue'
 </script>

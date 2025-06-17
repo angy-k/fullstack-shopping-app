@@ -15,22 +15,27 @@
           >
             <template v-slot:placeholder>
               <div class="d-flex align-center justify-center fill-height">
-                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                ></v-progress-circular>
               </div>
             </template>
           </v-img>
         </div>
       </div>
-      
+
       <!-- 404 Text below image -->
       <div class="text-h3 font-weight-bold mb-4 primary--text">404</div>
-      
+
       <!-- Error message -->
-      <h1 class="text-h4 font-weight-medium mb-4">This page is unknown or does not exist</h1>
+      <h1 class="text-h4 font-weight-medium mb-4">
+        This page is unknown or does not exist
+      </h1>
       <p class="text-subtitle-1 text-medium-emphasis mb-8">
         Sorry about that, but the page you're looking for is unavailable
       </p>
-      
+
       <!-- Action buttons -->
       <div class="actions-container">
         <v-btn
@@ -48,20 +53,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import NotFoundSkeleton from '@/components/skeletons/ui/NotFoundSkeleton.vue';
-import emptyCartImage from '@/assets/images/empty-cart.jpeg';
+import { ref, onMounted } from 'vue'
+import NotFoundSkeleton from '@/components/skeletons/ui/NotFoundSkeleton.vue'
+import emptyCartImage from '@/assets/images/empty-cart.jpeg'
 
-const isLoading = ref(true);
+const isLoading = ref(true)
 
 onMounted(() => {
-  document.title = '404 - Page Not Found | Shopping App';
-  
+  document.title = '404 - Page Not Found | Shopping App'
+
   // Simulate loading time or wait for any necessary data
   setTimeout(() => {
-    isLoading.value = false;
-  }, 500); // Show skeleton for 500ms
-});
+    isLoading.value = false
+  }, 500) // Show skeleton for 500ms
+})
 </script>
 
 <style scoped>
@@ -111,16 +116,16 @@ onMounted(() => {
     width: 160px;
     height: 160px;
   }
-  
+
   .error-overlay .text-h3 {
     font-size: 1.75rem !important;
   }
-  
+
   .actions-container {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .actions-container .v-btn {
     width: 100%;
     margin-right: 0 !important;

@@ -8,22 +8,22 @@
 defineProps({
   height: {
     type: [String, Number],
-    default: 'auto'
+    default: 'auto',
   },
   width: {
     type: [String, Number],
-    default: '100%'
+    default: '100%',
   },
   borderRadius: {
     type: [String, Number],
-    default: '4px'
+    default: '4px',
   },
   animation: {
     type: String,
     default: 'wave', // 'wave' or 'pulse'
-    validator: (value) => ['wave', 'pulse'].includes(value)
-  }
-});
+    validator: value => ['wave', 'pulse'].includes(value),
+  },
+})
 </script>
 
 <style scoped>
@@ -50,7 +50,9 @@ defineProps({
     rgba(255, 255, 255, 0.5) 60%,
     rgba(255, 255, 255, 0)
   );
-  animation: v-bind('animation === "wave" ? "shimmer 2s infinite" : "pulse 1.5s infinite"');
+  animation: v-bind(
+    'animation === "wave" ? "shimmer 2s infinite" : "pulse 1.5s infinite"'
+  );
   content: '';
 }
 

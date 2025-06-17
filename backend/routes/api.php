@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\File;
 // Global API status route
 Route::get('/status', function () {
     return response()->json([
-        'status' => 'API is running',
-        'version' => '1.0.0',
+        'status'      => 'API is running',
+        'version'     => '1.0.0',
         'environment' => app()->environment(),
-        'timestamp' => now()->toIso8601String()
+        'timestamp'   => now()->toIso8601String(),
     ]);
 });
 
@@ -28,7 +28,7 @@ Route::get('/status', function () {
 $apiRoutesPath = base_path('routes/api');
 if (File::isDirectory($apiRoutesPath)) {
     $files = File::files($apiRoutesPath);
-    
+
     foreach ($files as $file) {
         if ($file->getExtension() === 'php') {
             require $file->getPathname();

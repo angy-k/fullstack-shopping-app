@@ -9,8 +9,8 @@
  * @returns {function} Validation function
  */
 export const required = (message = 'This field is required') => {
-  return (value) => !!value || message;
-};
+  return value => !!value || message
+}
 
 /**
  * Email validation
@@ -18,11 +18,12 @@ export const required = (message = 'This field is required') => {
  * @returns {function} Validation function
  */
 export const email = (message = 'Please enter a valid email address') => {
-  return (value) => {
-    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return !value || pattern.test(value) || message;
-  };
-};
+  return value => {
+    const pattern =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return !value || pattern.test(value) || message
+  }
+}
 
 /**
  * Minimum length validation
@@ -30,9 +31,12 @@ export const email = (message = 'Please enter a valid email address') => {
  * @param {string} message - Custom error message (optional)
  * @returns {function} Validation function
  */
-export const minLength = (length, message = `Must be at least ${length} characters`) => {
-  return (value) => !value || value.length >= length || message;
-};
+export const minLength = (
+  length,
+  message = `Must be at least ${length} characters`,
+) => {
+  return value => !value || value.length >= length || message
+}
 
 /**
  * Maximum length validation
@@ -40,9 +44,12 @@ export const minLength = (length, message = `Must be at least ${length} characte
  * @param {string} message - Custom error message (optional)
  * @returns {function} Validation function
  */
-export const maxLength = (length, message = `Cannot exceed ${length} characters`) => {
-  return (value) => !value || value.length <= length || message;
-};
+export const maxLength = (
+  length,
+  message = `Cannot exceed ${length} characters`,
+) => {
+  return value => !value || value.length <= length || message
+}
 
 /**
  * Password match validation
@@ -50,12 +57,16 @@ export const maxLength = (length, message = `Cannot exceed ${length} characters`
  * @param {string} message - Custom error message (optional)
  * @returns {function} Validation function
  */
-export const passwordMatch = (compareValue, message = 'Passwords do not match') => {
-  return (value) => {
-    const valueToCompare = typeof compareValue === 'function' ? compareValue() : compareValue;
-    return value === valueToCompare || message;
-  };
-};
+export const passwordMatch = (
+  compareValue,
+  message = 'Passwords do not match',
+) => {
+  return value => {
+    const valueToCompare =
+      typeof compareValue === 'function' ? compareValue() : compareValue
+    return value === valueToCompare || message
+  }
+}
 
 /**
  * Numeric validation
@@ -63,8 +74,8 @@ export const passwordMatch = (compareValue, message = 'Passwords do not match') 
  * @returns {function} Validation function
  */
 export const numeric = (message = 'Must contain only numbers') => {
-  return (value) => !value || /^\d+$/.test(value) || message;
-};
+  return value => !value || /^\d+$/.test(value) || message
+}
 
 /**
  * URL validation
@@ -72,11 +83,11 @@ export const numeric = (message = 'Must contain only numbers') => {
  * @returns {function} Validation function
  */
 export const url = (message = 'Please enter a valid URL') => {
-  return (value) => {
-    const pattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
-    return !value || pattern.test(value) || message;
-  };
-};
+  return value => {
+    const pattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+    return !value || pattern.test(value) || message
+  }
+}
 
 export default {
   required,
@@ -86,4 +97,4 @@ export default {
   passwordMatch,
   numeric,
   url,
-};
+}

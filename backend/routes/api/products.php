@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 
 // Public product routes
 // Public product routes
-Route::get('products', function() {
+Route::get('products', function () {
     return response()->json(['message' => 'Products API endpoint']);
 });

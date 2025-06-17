@@ -2,11 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Password;
-use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +26,10 @@ Route::prefix('auth')->group(function () {
     Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
     // Password reset link handler
-    Route::get('reset-password/{token}', function($token) { 
+    Route::get('reset-password/{token}', function ($token) {
         $email = request('email');
-        return redirect(env('SPA_URL', 'http://localhost:5173') . '/reset-password?token=' . $token . '&email=' . $email); 
+
+        return redirect(env('SPA_URL', 'http://localhost:5173') . '/reset-password?token=' . $token . '&email=' . $email);
     })->name('password.reset');
 
     // Protected authentication routes

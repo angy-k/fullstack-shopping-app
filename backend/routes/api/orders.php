@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 // Protected order routes
 Route::group(['middleware' => ['auth:sanctum'], 'namespace' => 'Api'], function () {
-    Route::get('orders', function() {
+    Route::get('orders', function () {
         return response()->json(['message' => 'Orders API endpoint']);
     });
 });

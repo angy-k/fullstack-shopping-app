@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -37,7 +37,8 @@ const props = defineProps({
   type: {
     type: String,
     default: 'text',
-    validator: (value) => ['text', 'email', 'password', 'number', 'tel', 'url'].includes(value),
+    validator: value =>
+      ['text', 'email', 'password', 'number', 'tel', 'url'].includes(value),
   },
   rules: {
     type: Array,
@@ -99,32 +100,32 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-});
+})
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue'])
 
 // Password visibility toggle
-const showPassword = ref(false);
+const showPassword = ref(false)
 
 const togglePasswordVisibility = () => {
   if (props.type === 'password' && props.togglePassword) {
-    showPassword.value = !showPassword.value;
+    showPassword.value = !showPassword.value
   }
-};
+}
 
 const computedType = computed(() => {
   if (props.type === 'password' && props.togglePassword && showPassword.value) {
-    return 'text';
+    return 'text'
   }
-  return props.type;
-});
+  return props.type
+})
 
 const computedAppendIcon = computed(() => {
   if (props.type === 'password' && props.togglePassword) {
-    return showPassword.value ? 'mdi-eye-off' : 'mdi-eye';
+    return showPassword.value ? 'mdi-eye-off' : 'mdi-eye'
   }
-  return props.appendIcon;
-});
+  return props.appendIcon
+})
 </script>
 
 <style scoped>

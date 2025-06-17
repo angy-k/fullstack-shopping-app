@@ -5,22 +5,22 @@
       <div class="d-flex justify-center mb-6">
         <skeleton-loader height="200px" width="200px" border-radius="50%" />
       </div>
-      
+
       <!-- 404 Number Skeleton -->
       <div class="d-flex justify-center mb-4">
         <skeleton-loader height="40px" width="80px" border-radius="4px" />
       </div>
-      
+
       <!-- Error Message Skeleton -->
       <div class="mb-4">
         <skeleton-loader height="32px" width="80%" class="mx-auto mb-2" />
       </div>
-      
+
       <!-- Subtitle Skeleton -->
       <div class="mb-8">
         <skeleton-loader height="20px" width="60%" class="mx-auto" />
       </div>
-      
+
       <!-- Button Skeleton -->
       <div class="d-flex justify-center">
         <skeleton-loader height="48px" width="180px" border-radius="4px" />
@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import SkeletonLoader from '@/components/skeletons/common/SkeletonLoader.vue';
+import SkeletonLoader from '@/components/skeletons/common/SkeletonLoader.vue'
 </script>
 
 <style scoped>

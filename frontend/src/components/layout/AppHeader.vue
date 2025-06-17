@@ -7,29 +7,29 @@
       aria-label="Toggle navigation menu"
       :elevation="0"
     ></v-app-bar-nav-icon>
-    
+
     <!-- App logo -->
     <v-app-bar-title>
       <app-logo size="small" />
     </v-app-bar-title>
-    
+
     <!-- Navigation items for desktop view -->
     <template v-if="!isMobile">
       <v-spacer></v-spacer>
       <nav-menu :items="navItems" />
     </template>
-    
+
     <v-spacer></v-spacer>
-    
+
     <!-- Theme toggle -->
     <theme-toggle />
-    
+
     <!-- User menu for desktop view -->
     <template v-if="!isMobile">
       <user-menu v-if="isAuthenticated" :user="user" />
-      <v-btn 
-        v-else 
-        variant="text" 
+      <v-btn
+        v-else
+        variant="text"
         to="/login"
         :ripple="false"
         :elevation="0"
@@ -43,39 +43,39 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import ThemeToggle from '@/components/ThemeToggle.vue';
-import NavMenu from '@/components/NavMenu.vue';
-import UserMenu from '@/components/UserMenu.vue';
-import { useAuthStore } from '@/stores/auth';
-import AppLogo from '@/components/ui/AppLogo.vue';
+import { computed } from 'vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
+import NavMenu from '@/components/NavMenu.vue'
+import UserMenu from '@/components/UserMenu.vue'
+import { useAuthStore } from '@/stores/auth'
+import AppLogo from '@/components/ui/AppLogo.vue'
 
 const props = defineProps({
   isMobile: {
     type: Boolean,
-    required: true
+    required: true,
   },
   navItems: {
     type: Array,
-    required: true
+    required: true,
   },
   drawerOpen: {
     type: Boolean,
-    required: true
-  }
-});
+    required: true,
+  },
+})
 
-const emit = defineEmits(['update:drawerOpen']);
+const emit = defineEmits(['update:drawerOpen'])
 
 // Auth state
-const authStore = useAuthStore();
-const isAuthenticated = computed(() => authStore.isAuthenticated);
-const user = computed(() => authStore.user || {});
+const authStore = useAuthStore()
+const isAuthenticated = computed(() => authStore.isAuthenticated)
+const user = computed(() => authStore.user || {})
 
 // Toggle drawer
 const toggleDrawer = () => {
-  emit('update:drawerOpen', !props.drawerOpen);
-};
+  emit('update:drawerOpen', !props.drawerOpen)
+}
 </script>
 
 <style scoped>

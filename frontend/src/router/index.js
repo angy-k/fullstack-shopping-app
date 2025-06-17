@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth'
 
 /**
  * Route configuration with layout and auth requirements
- * 
+ *
  * Each route can specify:
  */
 const routes = [
@@ -13,8 +13,8 @@ const routes = [
     name: 'Home',
     component: () => import('@/views/HomeView.vue'),
     meta: {
-      layout: 'AppLayout'
-    }
+      layout: 'AppLayout',
+    },
   },
   {
     path: '/about',
@@ -27,10 +27,10 @@ const routes = [
     component: () => import('@/views/ProfileView.vue'),
     meta: {
       layout: 'AppLayout',
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
-  
+
   // Guest-only routes with empty layout
   {
     path: '/login',
@@ -38,8 +38,8 @@ const routes = [
     component: () => import('@/views/auth/LoginView.vue'),
     meta: {
       layout: 'AuthLayout',
-      guestOnly: true
-    }
+      guestOnly: true,
+    },
   },
   {
     path: '/register',
@@ -47,8 +47,8 @@ const routes = [
     component: () => import('@/views/auth/RegisterView.vue'),
     meta: {
       layout: 'AuthLayout',
-      guestOnly: true
-    }
+      guestOnly: true,
+    },
   },
   {
     path: '/forgot-password',
@@ -56,8 +56,8 @@ const routes = [
     component: () => import('@/views/auth/ForgotPasswordView.vue'),
     meta: {
       layout: 'AuthLayout',
-      guestOnly: true
-    }
+      guestOnly: true,
+    },
   },
   {
     path: '/reset-password',
@@ -65,23 +65,23 @@ const routes = [
     component: () => import('@/views/auth/ResetPasswordView.vue'),
     meta: {
       layout: 'AuthLayout',
-      guestOnly: true
-    }
+      guestOnly: true,
+    },
   },
-  
+
   // Error pages
   {
     path: '/404',
     name: 'NotFound',
     component: () => import('@/views/NotFoundView.vue'),
     meta: {
-      layout: 'ErrorLayout'
-    }
+      layout: 'ErrorLayout',
+    },
   },
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/404'
-  }
+    redirect: '/404',
+  },
 ]
 
 const router = createRouter({
@@ -94,19 +94,20 @@ const router = createRouter({
     } else {
       return { top: 0 }
     }
-  }
+  },
 })
 
 // Navigation guards
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
-  
+
   // Initialize user data if we have a token but no user data yet
   if (authStore.isAuthenticated && !authStore.user && !authStore.loading) {
     try {
       // Wait for user data to load
       await authStore.init()
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Failed to load user data:', error)
       // If loading user data fails, redirect to login
       if (to.meta.requiresAuth) {
@@ -114,19 +115,19 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   }
-  
+
   // Check if route requires authentication
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     // Redirect to login if not authenticated
     return next({ name: 'Login', query: { redirect: to.fullPath } })
   }
-  
+
   // Check if route is for guests only
   if (to.meta.guestOnly && authStore.isAuthenticated) {
     // Redirect to home if already authenticated
     return next({ name: 'Home' })
   }
-  
+
   // Proceed as normal
   next()
 })

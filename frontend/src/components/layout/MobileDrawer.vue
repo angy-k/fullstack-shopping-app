@@ -25,9 +25,9 @@
           ></v-btn>
         </template>
       </v-list-item>
-      
+
       <v-divider></v-divider>
-      
+
       <!-- Navigation items -->
       <v-list-item
         v-for="item in navItems"
@@ -40,25 +40,16 @@
           <v-icon color="indigo-lighten-2">{{ item.icon }}</v-icon>
         </template>
       </v-list-item>
-      
+
       <v-divider></v-divider>
-      
+
       <!-- Login/Logout -->
-      <v-list-item
-        v-if="isAuthenticated"
-        title="Logout"
-        @click="logout"
-      >
+      <v-list-item v-if="isAuthenticated" title="Logout" @click="logout">
         <template v-slot:prepend>
           <v-icon color="indigo-lighten-2">mdi-logout</v-icon>
         </template>
       </v-list-item>
-      <v-list-item
-        v-else
-        title="Login"
-        to="/login"
-        @click="closeDrawer"
-      >
+      <v-list-item v-else title="Login" to="/login" @click="closeDrawer">
         <template v-slot:prepend>
           <v-icon color="indigo-lighten-2">mdi-login</v-icon>
         </template>
@@ -68,38 +59,38 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
+import { computed } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    required: true
+    required: true,
   },
   navItems: {
     type: Array,
-    required: true
-  }
-});
+    required: true,
+  },
+})
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue'])
 
 // Auth state
-const authStore = useAuthStore();
-const isAuthenticated = computed(() => authStore.isAuthenticated);
-const user = computed(() => authStore.user || {});
+const authStore = useAuthStore()
+const isAuthenticated = computed(() => authStore.isAuthenticated)
+const user = computed(() => authStore.user || {})
 
 // Close drawer
 const closeDrawer = () => {
-  emit('update:modelValue', false);
-};
+  emit('update:modelValue', false)
+}
 
 // Logout function
-const router = useRouter();
+const router = useRouter()
 const logout = async () => {
-  await authStore.logout();
-  closeDrawer();
-  router.push('/home');
-};
+  await authStore.logout()
+  closeDrawer()
+  router.push('/home')
+}
 </script>

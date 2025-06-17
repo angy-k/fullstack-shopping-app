@@ -4,10 +4,9 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 
-
 /**
  * Application theme configuration
- * 
+ *
  * This centralized theme definition ensures consistent styling across
  * the entire application. It defines:
  * - Color palette (primary, secondary, accent, etc.)
@@ -22,7 +21,7 @@ const commonVariables = {
   // Border radius
   'border-radius': '4px',
   'border-radius-root': '4px',
-  
+
   // Spacing units (can be used as $spacing-x in components)
   'spacing-1': '4px',
   'spacing-2': '8px',
@@ -32,14 +31,14 @@ const commonVariables = {
   'spacing-6': '32px',
   'spacing-7': '48px',
   'spacing-8': '64px',
-  
+
   // Font settings
   'font-family': "'Roboto', sans-serif",
   'line-height-root': 1.5,
   'font-weight-regular': 400,
   'font-weight-medium': 500,
   'font-weight-bold': 700,
-  
+
   // Font sizes
   'font-size-root': '16px',
   'body-font-size': '1rem',
@@ -51,19 +50,19 @@ export default createVuetify({
   // Register all components and directives
   components,
   directives,
-  
+
   // Theme configuration
   theme: {
     // Default theme is light
     defaultTheme: 'lightTheme',
-    
+
     // Allow user to toggle between themes
     variations: {
       colors: ['primary', 'secondary', 'accent'],
       lighten: 1,
       darken: 2,
     },
-    
+
     themes: {
       // Light theme
       lightTheme: {
@@ -73,18 +72,18 @@ export default createVuetify({
           primary: '#3F51B5',
           secondary: '#5C6BC0',
           accent: '#7986CB',
-          
+
           // Semantic colors
           info: '#2196F3',
           success: '#4CAF50',
           warning: '#FB8C00',
           error: '#FF5252',
-          
+
           // Background colors
           background: '#FFFFFF',
           surface: '#FFFFFF',
           'surface-variant': '#F5F5F5',
-          
+
           // Text colors
           'on-background': '#212121',
           'on-surface': '#212121',
@@ -98,9 +97,9 @@ export default createVuetify({
           'shadow-key-umbra-opacity': 'rgba(0, 0, 0, 0.2)',
           'shadow-key-penumbra-opacity': 'rgba(0, 0, 0, 0.14)',
           'shadow-key-ambient-opacity': 'rgba(0, 0, 0, 0.12)',
-        }
+        },
       },
-      
+
       // Dark theme
       darkTheme: {
         dark: true,
@@ -109,18 +108,18 @@ export default createVuetify({
           primary: '#5C6BC0',
           secondary: '#7986CB',
           accent: '#9FA8DA',
-          
+
           // Semantic colors - slightly adjusted for visibility
           info: '#64B5F6',
           success: '#81C784',
           warning: '#FFB74D',
           error: '#FF5252',
-          
+
           // Background colors
           background: '#121212',
           surface: '#1E1E1E',
           'surface-variant': '#292929',
-          
+
           // Text colors
           'on-background': '#FFFFFF',
           'on-surface': '#FFFFFF',
@@ -134,11 +133,11 @@ export default createVuetify({
           'shadow-key-umbra-opacity': 'rgba(0, 0, 0, 0.2)',
           'shadow-key-penumbra-opacity': 'rgba(0, 0, 0, 0.14)',
           'shadow-key-ambient-opacity': 'rgba(0, 0, 0, 0.12)',
-        }
-      }
-    }
+        },
+      },
+    },
   },
-  
+
   // Default props for components
   defaults: {
     VCard: {
@@ -156,15 +155,15 @@ export default createVuetify({
     },
     VContainer: {
       fluid: true,
-    }
+    },
   },
-  
+
   // Default icon configuration
   icons: {
     defaultSet: 'mdi',
     aliases,
     sets: {
-      mdi
-    }
+      mdi,
+    },
   },
 })
