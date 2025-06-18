@@ -76,13 +76,28 @@ async function apiRequest(endpoint, options = {}) {
  */
 export const api = {
   /**
-   * GET request
+   * GET request with cache prevention
    * @param {string} endpoint - API endpoint
    * @param {Object} options - Additional fetch options
+   * @param {boolean} noCache - Whether to add cache prevention headers
    * @returns {Promise<any>}
    */
-  get: (endpoint, options = {}) =>
-    apiRequest(endpoint, { ...options, method: 'GET' }),
+  get: (endpoint, options = {}, noCache = true) => {
+    // Add cache prevention headers if noCache is true
+    const headers = options.headers || {}
+    
+    if (noCache) {
+      headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+      headers['Pragma'] = 'no-cache'
+      headers['Expires'] = '0'
+    }
+    
+    return apiRequest(endpoint, { 
+      ...options, 
+      headers,
+      method: 'GET' 
+    })
+  },
 
   /**
    * POST request

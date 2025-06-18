@@ -1,44 +1,46 @@
 <template>
   <v-app-bar :elevation="1" class="border-b">
-    <!-- Menu button for mobile view -->
-    <v-app-bar-nav-icon
-      v-if="isMobile"
-      @click="toggleDrawer"
-      aria-label="Toggle navigation menu"
-      :elevation="0"
-    ></v-app-bar-nav-icon>
-
-    <!-- App logo -->
-    <v-app-bar-title>
-      <app-logo size="small" />
-    </v-app-bar-title>
-
-    <!-- Navigation items for desktop view -->
-    <template v-if="!isMobile">
-      <v-spacer></v-spacer>
-      <nav-menu :items="navItems" />
-    </template>
-
-    <v-spacer></v-spacer>
-
-    <!-- Theme toggle -->
-    <theme-toggle />
-
-    <!-- User menu for desktop view -->
-    <template v-if="!isMobile">
-      <user-menu v-if="isAuthenticated" :user="user" />
-      <v-btn
-        v-else
-        variant="text"
-        to="/login"
-        :ripple="false"
+    <div class="header-container">
+      <!-- Menu button for mobile view -->
+      <v-app-bar-nav-icon
+        v-if="isMobile"
+        @click="toggleDrawer"
+        aria-label="Toggle navigation menu"
         :elevation="0"
-        class="nav-btn indigo-lighten-2--text"
-      >
-        Login
-        <v-icon end color="indigo-lighten-2">mdi-login</v-icon>
-      </v-btn>
-    </template>
+      ></v-app-bar-nav-icon>
+
+      <!-- App logo -->
+      <v-app-bar-title>
+        <app-logo size="small" />
+      </v-app-bar-title>
+
+      <!-- Navigation items for desktop view -->
+      <template v-if="!isMobile">
+        <v-spacer></v-spacer>
+        <nav-menu :items="navItems" />
+      </template>
+
+      <v-spacer class="preview-divider"></v-spacer>
+
+      <!-- Theme toggle -->
+      <theme-toggle />
+
+      <!-- User menu for desktop view -->
+      <template v-if="!isMobile">
+        <user-menu v-if="isAuthenticated" :user="user" />
+        <v-btn
+          v-else
+          variant="text"
+          to="/login"
+          :ripple="false"
+          :elevation="0"
+          class="nav-btn indigo-lighten-2--text"
+        >
+          Login
+          <v-icon end color="indigo-lighten-2">mdi-login</v-icon>
+        </v-btn>
+      </template>
+    </div>
   </v-app-bar>
 </template>
 
@@ -81,6 +83,22 @@ const toggleDrawer = () => {
 <style scoped>
 .border-b {
   border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08) !important;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.preview-divider {
+  display: block;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 }
 
 .nav-btn {
