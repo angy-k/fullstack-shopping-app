@@ -59,7 +59,7 @@
             <p class="text-body-1">{{ product.description }}</p>
           </div>
 
-          <div class="d-flex align-center mb-6">
+          <div class="d-flex align-center mb-4">
             <span class="text-subtitle-1 mr-4">Quantity:</span>
             <v-text-field
               v-model="quantity"
@@ -68,14 +68,29 @@
               :max="product.stock_quantity"
               density="compact"
               style="max-width: 100px"
-              hide-details
               class="mr-4"
+              :rules="[v => !!v || 'Required', v => v > 0 || 'Must be at least 1', v => v <= product.stock_quantity || `Maximum ${product.stock_quantity}`]"
+              :disabled="addingToCart"
+              @blur="validateQuantity"
+              hide-details="auto"
             ></v-text-field>
 
             <span class="text-caption">
               {{ product.stock_quantity }} in stock
             </span>
           </div>
+          
+          <v-alert
+            v-if="showSuccessMessage"
+            color="success"
+            icon="mdi-check-circle"
+            variant="tonal"
+            class="mb-4"
+            closable
+            @click:close="showSuccessMessage = false"
+          >
+            Product added to cart successfully!
+          </v-alert>
 
           <v-btn
             color="primary"
@@ -83,6 +98,8 @@
             prepend-icon="mdi-cart"
             block
             @click="addToCart"
+            :loading="addingToCart"
+            :disabled="addingToCart"
           >
             Add to Cart
           </v-btn>
@@ -114,13 +131,17 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useProductStore } from '@/stores/product'
+import { useCartStore } from '@/stores/cart'
 
 const route = useRoute()
 const productStore = useProductStore()
+const cartStore = useCartStore()
 
 const product = ref(null)
 const loading = ref(true)
 const quantity = ref(1)
+const addingToCart = ref(false)
+const showSuccessMessage = ref(false)
 
 const fetchProduct = async () => {
   loading.value = true
@@ -135,12 +156,43 @@ const fetchProduct = async () => {
   }
 }
 
-const addToCart = () => {
-  // This would be implemented when we add cart functionality
-  console.log('Add to cart:', {
-    productId: product.value.id,
-    quantity: quantity.value,
-  })
+const validateQuantity = () => {
+  if (!product.value) return
+  
+  let qty = parseInt(quantity.value)
+  
+  // Handle invalid input
+  if (isNaN(qty) || qty < 1) {
+    quantity.value = 1
+  } else if (qty > product.value.stock_quantity) {
+    quantity.value = product.value.stock_quantity
+  }
+}
+
+const addToCart = async () => {
+  if (!product.value) return
+  
+  // Validate quantity
+  validateQuantity()
+  
+  addingToCart.value = true
+  
+  try {
+    await cartStore.addToCart(product.value, parseInt(quantity.value))
+    showSuccessMessage.value = true
+    
+    // Reset success message after 3 seconds
+    setTimeout(() => {
+      showSuccessMessage.value = false
+    }, 3000)
+    
+    // Reset quantity to 1 after adding to cart
+    quantity.value = 1
+  } catch (error) {
+    console.error('Error adding product to cart:', error)
+  } finally {
+    addingToCart.value = false
+  }
 }
 
 onMounted(() => {

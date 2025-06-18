@@ -282,6 +282,20 @@ The following API endpoints have been implemented:
 - `GET /api/user` - Get authenticated user details (requires authentication)
 - `GET /sanctum/csrf-cookie` - Get CSRF cookie for CSRF protection
 
+### Cart
+- `GET /api/cart` - Get the current user's cart (requires authentication)
+- `POST /api/cart/items` - Add item to cart (requires authentication)
+- `PATCH /api/cart/items/{id}` - Update cart item quantity (requires authentication)
+- `DELETE /api/cart/items/{id}` - Remove item from cart (requires authentication)
+- `DELETE /api/cart` - Clear the entire cart (requires authentication)
+- `POST /api/cart/merge` - Merge guest cart items into authenticated user's cart (requires authentication)
+
+### Orders
+- `GET /api/orders` - Get all orders for the authenticated user (requires authentication)
+- `GET /api/orders/{id}` - Get a specific order by ID (requires authentication)
+- `POST /api/orders` - Create a new order from cart items (requires authentication)
+- `PATCH /api/orders/{id}/cancel` - Cancel an order (requires authentication)
+
 
 ## Security Notes
 

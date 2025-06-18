@@ -8,8 +8,8 @@
   >
     <v-icon>mdi-cart</v-icon>
     <v-badge
-      v-if="productCount > 0"
-      :content="productCount"
+      v-if="count > 0"
+      :content="count"
       color="primary"
       floating
       dot-size="20"
@@ -26,7 +26,7 @@ import { computed } from 'vue'
 import { useCartStore } from '@/stores/cart'
 
 const cartStore = useCartStore()
-const productCount = computed(() => cartStore.productCount)
+const count = computed(() => cartStore.count)
 </script>
 
 <style scoped>
