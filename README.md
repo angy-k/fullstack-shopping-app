@@ -130,6 +130,51 @@ docker compose up --build
 | `backend` | Laravel API with PHP 8.3        | 8000  | DB_HOST, APP_URL, etc.                 |
 | `frontend`| Nginx-served Vue 3 application   | 5173  | VITE_API_URL                           |
 
+## Testing
+
+### Backend Tests
+
+The backend includes comprehensive PHPUnit tests for authentication features:
+
+```bash
+cd backend
+
+# Run all tests
+php artisan test
+
+# Run only authentication tests
+php artisan test --filter=Auth
+```
+
+Test coverage includes:
+- Authentication (login, logout, user profile)
+- Registration with validation
+- Password reset flow
+- Sanctum token authentication
+- CSRF protection
+
+### Frontend Tests
+
+The frontend uses Vitest for unit and integration testing:
+
+```bash
+cd frontend
+
+# Run all tests
+npm test
+
+# Run tests with coverage report
+npm test -- --coverage
+
+# Run tests in watch mode during development
+npm test -- --watch
+```
+
+Test coverage includes:
+- Component unit tests
+- Auth service tests
+- Authentication flow integration tests
+
 ### Environment Variables
 
 #### Backend (.env)

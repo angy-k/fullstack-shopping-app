@@ -139,3 +139,26 @@ fullstack-shopping-app/
 - **Frontend**: Deployed to [Vercel](https://vercel.com)
 - **Backend**: Dockerized; deployable via VPS, Render.com, or similar
 - **CI/CD**: GitHub Actions used to run tests and deploy both apps
+
+---
+
+## Testing Strategy
+
+### Frontend Testing
+
+- **Unit Tests**: Component-level tests using Vitest and Vue Test Utils
+  - Shallow mounting for better Docker compatibility
+  - Mocked Pinia stores and Vue Router
+  - Mocked browser APIs (localStorage, fetch)
+- **Integration Tests**: Auth flow tests covering login, logout, and error handling
+- **Test Environment**: Configured for Docker compatibility
+
+### Backend Testing
+
+- **Feature Tests**: PHPUnit tests for API endpoints and authentication flows
+  - Authentication: Login, logout, user profile access
+  - Registration: Valid/invalid data handling, duplicate email detection
+  - Password Reset: Email sending, token validation, password updating
+  - Sanctum Token: Token validation, protected route access
+  - CSRF Protection: Cookie setting, token validation
+- **Database**: Uses RefreshDatabase trait for clean test environment
