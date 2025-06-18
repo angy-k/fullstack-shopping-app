@@ -21,8 +21,17 @@ fullstack-shopping-app/
 │ └── database/migrations/
 ├── frontend/ # Vue 3 + Vuetify SPA
 │ ├── src/components
-│ ├── src/stores
+│ │ ├── global/     # Globally registered components
+│ │ └── skeletons/  # Loading skeleton components
+│ │     ├── auth/      # Auth-related skeletons
+│ │     ├── ui/        # UI-related skeletons
+│ │     └── common/    # Base skeleton components
+│ ├── src/layouts    # Application layouts
 │ ├── src/views
+│ │ └── auth/      # Authentication views
+│ ├── src/stores
+│ ├── src/router
+│ ├── src/utils
 │ └── src/services
 ├── docs/ # Planning, diagrams
 │ └── diagrams/
@@ -89,6 +98,28 @@ fullstack-shopping-app/
 - **Cart expiration**: DB items expire after 3 days via timestamp/cron logic
 - **Stock**: Each product has a stock column to prevent over-purchase
 
+## Frontend Architecture
+
+### Component Organization
+
+- **Feature-Based Structure**: Components are organized by domain/feature rather than type
+- **Skeleton Loaders**: Centralized in `components/skeletons/` with domain-specific subfolders
+- **Global Components**: Automatically registered from `components/global/` directory
+
+### Layout System
+
+- **Multiple Layouts**: 
+  - `AppLayout`: Main application layout with navigation
+  - `AuthLayout`: Minimal layout for authentication pages
+  - `ErrorLayout`: Specialized layout for error pages
+- **Dynamic Layout Rendering**: App.vue dynamically renders layouts based on route metadata
+
+### Dynamic Component Registration
+
+- **Auto-Registration**: Global components are automatically discovered and registered
+- **Implementation**: Uses Vite's `import.meta.glob` feature in `utils/globalComponents.js`
+- **Benefits**: Reduces boilerplate, improves maintainability as the app grows
+
 ---
 
 ## Diagrams
@@ -108,3 +139,26 @@ fullstack-shopping-app/
 - **Frontend**: Deployed to [Vercel](https://vercel.com)
 - **Backend**: Dockerized; deployable via VPS, Render.com, or similar
 - **CI/CD**: GitHub Actions used to run tests and deploy both apps
+
+---
+
+## Testing Strategy
+
+### Frontend Testing
+
+- **Unit Tests**: Component-level tests using Vitest and Vue Test Utils
+  - Shallow mounting for better Docker compatibility
+  - Mocked Pinia stores and Vue Router
+  - Mocked browser APIs (localStorage, fetch)
+- **Integration Tests**: Auth flow tests covering login, logout, and error handling
+- **Test Environment**: Configured for Docker compatibility
+
+### Backend Testing
+
+- **Feature Tests**: PHPUnit tests for API endpoints and authentication flows
+  - Authentication: Login, logout, user profile access
+  - Registration: Valid/invalid data handling, duplicate email detection
+  - Password Reset: Email sending, token validation, password updating
+  - Sanctum Token: Token validation, protected route access
+  - CSRF Protection: Cookie setting, token validation
+- **Database**: Uses RefreshDatabase trait for clean test environment

@@ -4,21 +4,13 @@ Demo fullstack shopping app with Laravel API &amp; Vue.js frontend, featuring pr
 
 ## Project Structure
 
-```
-fullstack-shopping-app/
-├── backend/          # Laravel API backend
-│   ├── app/         # Application code
-│   ├── routes/      # API routes
-│   ├── database/    # Database migrations
-│   └── public/      # Public assets (Laravel)
-├── frontend/        # Vue 3 SPA (Vite)
-│   ├── src/         # App source (components, views, stores)
-│   └── public/      # Static assets
-├── docs/            # Project documentation
-│   ├── diagrams/    # System architecture details
-│   ├── architecture.md  # System architecture details
-│   └── planning.md      # Project planning and roadmap
-```
+This project is organized as a monorepo with three main directories:
+
+- `backend/` - Laravel API backend
+- `frontend/` - Vue 3 SPA with Vite
+- `docs/` - Project documentation and diagrams
+
+> For detailed project structure and architecture information, see [docs/architecture.md](docs/architecture.md)
 
 ## Prerequisites
 
@@ -61,7 +53,15 @@ fullstack-shopping-app/
    php artisan migrate
    ```
 
-6. Start the development server:
+6. Seed the database with a default user:
+   ```bash
+   php artisan db:seed
+   ```
+   This will create a default user with the following credentials:
+   - Email: demo@example.com
+   - Password: password123
+
+7. Start the development server:
    ```bash
    php artisan serve
    ```
@@ -130,6 +130,51 @@ docker compose up --build
 | `backend` | Laravel API with PHP 8.3        | 8000  | DB_HOST, APP_URL, etc.                 |
 | `frontend`| Nginx-served Vue 3 application   | 5173  | VITE_API_URL                           |
 
+## Testing
+
+### Backend Tests
+
+The backend includes comprehensive PHPUnit tests for authentication features:
+
+```bash
+cd backend
+
+# Run all tests
+php artisan test
+
+# Run only authentication tests
+php artisan test --filter=Auth
+```
+
+Test coverage includes:
+- Authentication (login, logout, user profile)
+- Registration with validation
+- Password reset flow
+- Sanctum token authentication
+- CSRF protection
+
+### Frontend Tests
+
+The frontend uses Vitest for unit and integration testing:
+
+```bash
+cd frontend
+
+# Run all tests
+npm test
+
+# Run tests with coverage report
+npm test -- --coverage
+
+# Run tests in watch mode during development
+npm test -- --watch
+```
+
+Test coverage includes:
+- Component unit tests
+- Auth service tests
+- Authentication flow integration tests
+
 ### Environment Variables
 
 #### Backend (.env)
@@ -157,6 +202,18 @@ VITE_API_URL=http://localhost:8000/api  # URL for API requests
 - **Development**: The setup includes volume mounts for live code changes
 - **Production**: For production, you would want to modify the Dockerfiles to build optimized images
 
+### Seeding Default User in Docker
+
+To seed the database with a default user when using Docker:
+
+```bash
+docker compose exec backend php artisan db:seed
+```
+
+This will create a default user with the following credentials:
+- Email: demo@example.com
+- Password: password123
+
 ### Troubleshooting
 
 - **Database Connection Issues**: Ensure the backend's .env file has `DB_HOST=mysql`
@@ -174,14 +231,22 @@ Detailed documentation about the project can be found in the `docs/` directory:
 
 ## API Documentation
 
-The API structure is in progress. The following endpoints will be implemented:
+The following API endpoints have been implemented:
 
-- Authentication
+### Authentication
+- `POST /api/login` - Authenticate user and return token
+- `POST /api/register` - Register new user and return token
+- `POST /api/logout` - Invalidate user token (requires authentication)
+- `GET /api/user` - Get authenticated user details (requires authentication)
+- `GET /sanctum/csrf-cookie` - Get CSRF cookie for CSRF protection
 
 
 ## Security Notes
 
-- The application uses Laravel Sanctum for API authentication
+- The application uses Laravel Sanctum for API authentication with token-based auth
+- SPA authentication is configured with stateful domains for secure cookie handling
+- CSRF protection is enabled with dedicated endpoints for CSRF cookie generation
+- Token-based API authentication with Bearer tokens for mobile/API clients
+- Secure password hashing with bcrypt
 - All sensitive data is encrypted
-- CSRF protection is enabled
-- SQL injection prevention is implemented
+- SQL injection prevention through Laravel's query builder and Eloquent ORM

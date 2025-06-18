@@ -68,18 +68,19 @@ The application allows:
 
 ## ✅ Task Checklist
 
-- [ ] Backend Laravel setup
+- [x] Backend Laravel setup
 - [ ] Product import command
 - [ ] Product model + migration
 - [ ] Cart model + logic
-- [ ] Auth + Sanctum setup
+- [x] Auth + Sanctum setup
 - [ ] Product update endpoint (auth protected)
-- [ ] Frontend Vue 3 + Vuetify setup
+- [x] Frontend Vue 3 + Vuetify setup
 - [ ] Product listing UI
-- [ ] Cart component + Pinia store
+- [x] Cart component + Pinia store
 - [ ] Cart sync to backend (logged-in user)
 - [ ] Checkout flow + order creation
-- [ ] EER diagram
-- [ ] Sequence diagrams
-- [ ] Dockerization (BE & FE)
+- [x] EER diagram
+- [x] Sequence diagrams
+- [x] Dockerization (BE & FE)
 - [ ] GitHub Actions + deployment
+- [x] Backend authentication tests
