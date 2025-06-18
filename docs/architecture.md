@@ -44,9 +44,10 @@ fullstack-shopping-app/
 - `users` — Authenticated users (for cart sync and protected actions)
 - `products` — Products imported from Fake Store API
 - `categories` — Product categories
-- `cart_items` — Items in user's or guest's cart (expires after 3 days)
-- `orders` — Confirmed checkouts
-- `order_items` — Items linked to an order
+- `carts` — Shopping carts belonging to users (one active cart per user)
+- `cart_items` — Items in user's cart with quantity and price at time of adding (expires after 3 days)
+- `orders` — Confirmed checkouts with user info, status, and total price
+- `order_items` — Items linked to an order with quantity and price at time of order
 
 *See: `docs/diagrams/eer-model.png`*
 
@@ -62,14 +63,34 @@ fullstack-shopping-app/
 
 ## 🔌 API Endpoints
 
+### Product Endpoints
+
 | Endpoint                    | Method | Auth? | Description                                |
-|----------------------------|--------|-------|--------------------------------------------|
+|----------------------------|--------|-------|-----------------------------------------|
 | `/api/products`            | GET    | No    | Fetch product list                         |
+| `/api/products/{id}`       | GET    | No    | Get product details                        |
 | `/api/products/{id}`       | PUT    | Yes   | Update product (title, price, image, etc.) |
+| `/api/categories`          | GET    | No    | Fetch all categories                       |
+
+### Cart Endpoints
+
+| Endpoint                    | Method | Auth? | Description                                |
+|----------------------------|--------|-------|-----------------------------------------|
 | `/api/cart`                | GET    | Yes   | Get current user's cart                    |
-| `/api/cart`                | POST   | Yes   | Add/update cart item                       |
-| `/api/cart/{id}`           | DELETE | Yes   | Remove item from cart                      |
-| `/api/orders`              | POST   | Yes   | Create a new order                         |
+| `/api/cart/items`          | POST   | Yes   | Add item to cart                           |
+| `/api/cart/items/{id}`     | PATCH  | Yes   | Update cart item quantity                  |
+| `/api/cart/items/{id}`     | DELETE | Yes   | Remove item from cart                      |
+| `/api/cart`                | DELETE | Yes   | Clear entire cart                          |
+| `/api/cart/merge`          | POST   | Yes   | Merge guest cart with user cart            |
+
+### Order Endpoints
+
+| Endpoint                    | Method | Auth? | Description                                |
+|----------------------------|--------|-------|-----------------------------------------|
+| `/api/orders`              | GET    | Yes   | Get all user orders                        |
+| `/api/orders/{id}`         | GET    | Yes   | Get specific order details                 |
+| `/api/orders`              | POST   | Yes   | Create a new order from cart               |
+| `/api/orders/{id}/cancel`  | PATCH  | Yes   | Cancel an existing order                   |
 
 ---
 
@@ -80,14 +101,36 @@ fullstack-shopping-app/
 2. Products are created/updated locally
 3. Related categories are synced
 
-### Cart
-- Guest: cart stored in `localStorage`
-- Logged-in user: cart items stored in DB (`cart_items` table)
+### Cart System
+- **Guest Users**:
+  - Cart stored in `localStorage` using Pinia store
+  - Items include product ID, title, price, image URL, and quantity
+  - Cart persists across browser sessions
 
-### Checkout
-1. User clicks "checkout"
-2. Frontend calls `POST /api/orders`
-3. Backend validates stock, creates order, deducts stock
+- **Authenticated Users**:
+  - Cart stored in database (`carts` and `cart_items` tables)
+  - Each user has one active cart with multiple cart items
+  - Cart items store product reference, quantity, and price at time of adding
+  - Old cart items (>3 days) automatically cleaned up via scheduled command
+
+- **Cart Merging**:
+  - When guest user logs in, their localStorage cart is merged with their database cart
+  - Merging handled by `CartService` on backend and cart store on frontend
+  - Duplicate items have quantities combined
+  - After successful merge, localStorage cart is cleared
+
+### Checkout & Order System
+1. User reviews cart and proceeds to checkout (authenticated users only)
+2. User provides shipping details on checkout page
+3. Frontend calls `POST /api/orders` with shipping details
+4. Backend within transaction:
+   - Validates cart items and stock availability
+   - Creates new order record with status "pending"
+   - Transfers cart items to order items with current pricing
+   - Clears the user's cart
+   - Returns order confirmation with details
+5. User can view order history and details in their account
+6. Orders can be cancelled if they haven't been processed yet
 
 ---
 
@@ -113,6 +156,29 @@ fullstack-shopping-app/
   - `AuthLayout`: Minimal layout for authentication pages
   - `ErrorLayout`: Specialized layout for error pages
 - **Dynamic Layout Rendering**: App.vue dynamically renders layouts based on route metadata
+- **Route Protection**: Checkout route protected with `requiresAuth` meta flag to ensure only authenticated users can access it
+
+### State Management
+
+- **Pinia Stores**: Modular state management with Pinia
+  - `auth.js`: Authentication state and user data
+  - `cart.js`: Cart management for both guest and authenticated users
+  - `product.js`: Product listing and filtering
+  - `category.js`: Category management
+  - `order.js`: Order creation and history
+
+### API Services
+
+- **Centralized API Client**: `api.js` service provides a unified interface for API calls
+  - Automatic token handling for authenticated requests
+  - CSRF protection
+  - Consistent error handling
+- **Feature-Specific Services**:
+  - `cart.js`: Cart operations (get, add, update, remove, clear, merge)
+  - `order.js`: Order operations (list, get, create, cancel)
+  - `product.js`: Product operations (list, get, update)
+  - `category.js`: Category operations (list)
+  - `auth.js`: Authentication operations (login, register, logout)
 
 ### Dynamic Component Registration
 

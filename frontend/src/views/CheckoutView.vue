@@ -16,7 +16,7 @@
     </div>
 
     <v-form v-else ref="form" v-model="valid" @submit.prevent="submitOrder">
-      <div class="d-flex flex-column flex-md-row gap-6">
+      <div class="d-flex flex-column flex-md-row gap-6" style="gap: 15px">
         <!-- Shipping Information -->
         <div class="flex-grow-1">
           <v-card class="mb-6">
@@ -37,7 +37,7 @@
               ></v-text-field>
 
               <v-row>
-                <v-col cols="12" sm="6">
+                <v-col cols="12" sm="4">
                   <v-text-field
                     v-model="shippingInfo.city"
                     label="City"
@@ -46,7 +46,16 @@
                     density="comfortable"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12" sm="6">
+                <v-col cols="12" sm="4">
+                  <v-text-field
+                    v-model="shippingInfo.state"
+                    label="State/Province"
+                    :rules="[rules.required]"
+                    variant="outlined"
+                    density="comfortable"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4">
                   <v-text-field
                     v-model="shippingInfo.postalCode"
                     label="Postal Code"
@@ -185,10 +194,19 @@
             Thank you for your order! Your order number is
             <strong>#{{ orderNumber }}</strong>.
           </p>
-          <p class="text-body-2 mb-6">
-            We've sent a confirmation email to {{ shippingInfo.email }}. You'll
+          <p class="text-body-2 mb-2">
+            We've sent a confirmation email to {{ user?.email || 'your email' }}. You'll
             receive another notification when your order ships.
           </p>
+          <v-alert
+            color="info"
+            icon="mdi-clock-outline"
+            variant="tonal"
+            class="mb-6 text-center"
+            density="compact"
+          >
+            Redirecting to home page in {{ redirectCountdown }} seconds...
+          </v-alert>
           <v-btn
             color="primary"
             block
@@ -208,6 +226,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCartStore } from '@/stores/cart'
 import { useAuthStore } from '@/stores/auth'
+import { orderService } from '@/services/order'
 
 const cartStore = useCartStore()
 const authStore = useAuthStore()
@@ -219,10 +238,12 @@ const user = computed(() => authStore.user)
 const router = useRouter()
 const orderSuccessDialog = ref(false)
 const orderNumber = ref('')
+const redirectCountdown = ref(5)
 
 const shippingInfo = ref({
   address: '',
   city: '',
+  state: '',
   postalCode: '',
   country: '',
   phone: '',
@@ -244,14 +265,43 @@ const submitOrder = async () => {
   loading.value = true
   
   try {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    // Prepare order data from shipping info
+    const orderData = {
+      shipping_name: user.value?.name || 'User',
+      shipping_address: shippingInfo.value.address,
+      shipping_city: shippingInfo.value.city,
+      shipping_state: shippingInfo.value.state,
+      shipping_zip: shippingInfo.value.postalCode,
+      shipping_country: shippingInfo.value.country,
+      shipping_phone: shippingInfo.value.phone,
+      shipping_email: user.value?.email || '',
+      notes: ''
+    }
     
-    // Generate random order number
-    orderNumber.value = Math.floor(100000 + Math.random() * 900000).toString()
+    // Call the order service API
+    const response = await orderService.createOrder(orderData)
+    
+    // Get the order number from the response
+    const order = response.data.order
+    orderNumber.value = order.id.toString()
+    
+    // Clear cart immediately after successful order
+    await cartStore.clearCart()
     
     // Show success dialog
     orderSuccessDialog.value = true
+    
+    // Start countdown for auto-redirect
+    redirectCountdown.value = 5
+    const countdownInterval = setInterval(() => {
+      redirectCountdown.value--
+      if (redirectCountdown.value <= 0) {
+        clearInterval(countdownInterval)
+        if (orderSuccessDialog.value) {
+          finishOrder()
+        }
+      }
+    }, 1000)
     
   } catch (error) {
     console.error('Error processing order:', error)
