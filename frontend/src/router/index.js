@@ -5,13 +5,40 @@ import { useAuthStore } from '@/stores/auth'
  * Route configuration with layout and auth requirements
  *
  * Each route can specify:
- */
+ * - meta.layout: 'AppLayout' (default) or 'EmptyLayout'
+ * - meta.requiresAuth: true if authentication is required
+ * - meta.guestOnly: true if route should only be accessible to non-authenticated users */
 const routes = [
   // Public routes with app layout
   {
     path: '/',
     name: 'Home',
     component: () => import('@/views/HomeView.vue'),
+    meta: {
+      layout: 'AppLayout',
+    },
+  },
+  {
+    path: '/products',
+    name: 'Products',
+    component: () => import('@/views/ProductsView.vue'),
+    meta: {
+      layout: 'AppLayout',
+    },
+  },
+  {
+    path: '/products/:id',
+    name: 'ProductDetail',
+    component: () => import('@/views/ProductDetailView.vue'),
+    meta: {
+      layout: 'AppLayout',
+    },
+    props: true,
+  },
+  {
+    path: '/categories',
+    name: 'Categories',
+    component: () => import('@/views/CategoriesView.vue'),
     meta: {
       layout: 'AppLayout',
     },

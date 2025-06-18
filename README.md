@@ -95,6 +95,48 @@ The backend API will be available at `http://localhost:8000`
 - Vuetify 3
 - ESLint (Flat config) & Prettier
 
+## Testing
+
+### Backend Tests
+
+The backend uses PHPUnit for testing with feature tests for API endpoints and unit tests for repositories and controllers.
+
+1. Run all tests:
+   ```bash
+   cd backend
+   php artisan test
+   ```
+
+2. Run specific test suite:
+   ```bash
+   php artisan test --filter=ProductRepositoryTest
+   ```
+
+3. Run with coverage report (requires Xdebug):
+   ```bash
+   XDEBUG_MODE=coverage php artisan test --coverage
+   ```
+
+### Frontend Tests
+
+The frontend uses Vitest and Vue Test Utils for component and store testing.
+
+1. Run all tests:
+   ```bash
+   cd frontend
+   npm run test
+   ```
+
+2. Run tests in watch mode during development:
+   ```bash
+   npm run test:watch
+   ```
+
+3. Generate coverage report:
+   ```bash
+   npm run test:coverage
+   ```
+
 ## Docker Setup
 
 ### Quick Start
