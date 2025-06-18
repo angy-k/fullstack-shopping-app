@@ -50,6 +50,8 @@
 
 <script setup>
 import { defineProps } from 'vue'
+import { useCartStore } from '@/stores/cart'
+import { useDisplay } from 'vuetify'
 
 const props = defineProps({
   product: {
@@ -58,10 +60,14 @@ const props = defineProps({
   },
 })
 
+const cartStore = useCartStore()
+const { mobile } = useDisplay()
+
 const addToCart = event => {
   event.preventDefault()
-  // This would be implemented when we add cart functionality
-  console.log('Add to cart:', props.product.id)
+  cartStore.addToCart(props.product)
+  
+  // Show snackbar or other feedback could be added here
 }
 </script>
 
