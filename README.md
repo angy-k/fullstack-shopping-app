@@ -53,7 +53,15 @@ This project is organized as a monorepo with three main directories:
    php artisan migrate
    ```
 
-6. Start the development server:
+6. Seed the database with a default user:
+   ```bash
+   php artisan db:seed
+   ```
+   This will create a default user with the following credentials:
+   - Email: demo@example.com
+   - Password: password123
+
+7. Start the development server:
    ```bash
    php artisan serve
    ```
@@ -148,6 +156,18 @@ VITE_API_URL=http://localhost:8000/api  # URL for API requests
 
 - **Development**: The setup includes volume mounts for live code changes
 - **Production**: For production, you would want to modify the Dockerfiles to build optimized images
+
+### Seeding Default User in Docker
+
+To seed the database with a default user when using Docker:
+
+```bash
+docker compose exec backend php artisan db:seed
+```
+
+This will create a default user with the following credentials:
+- Email: demo@example.com
+- Password: password123
 
 ### Troubleshooting
 
