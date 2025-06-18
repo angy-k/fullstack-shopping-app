@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 
 // Create a simple FormInput component for testing
@@ -14,7 +14,7 @@ const FormInput = {
     appendIcon: String,
     togglePassword: Boolean,
     disabled: Boolean,
-    customClass: String
+    customClass: String,
   },
   template: `
     <div class="form-input" :class="[customClass, { 'v-text-field--error': error }]">
@@ -37,12 +37,12 @@ const FormInput = {
   `,
   emits: ['update:modelValue', 'click:append-inner'],
   data() {
-    return { 
-      showPassword: false, 
-      error: false, 
-      errorMessages: '' 
+    return {
+      showPassword: false,
+      error: false,
+      errorMessages: '',
     }
-  }
+  },
 }
 
 describe('FormInput', () => {
@@ -51,10 +51,10 @@ describe('FormInput', () => {
     const label = 'Test Label'
     const wrapper = shallowMount(FormInput, {
       props: {
-        label
-      }
+        label,
+      },
     })
-    
+
     expect(wrapper.find('label').exists()).toBe(true)
     expect(wrapper.find('label').text()).toBe(label)
   })
@@ -63,15 +63,15 @@ describe('FormInput', () => {
   it('supports v-model binding', async () => {
     const wrapper = shallowMount(FormInput, {
       props: {
-        modelValue: 'initial value'
-      }
+        modelValue: 'initial value',
+      },
     })
-    
+
     expect(wrapper.find('input').element.value).toBe('initial value')
-    
+
     // Simulate input change
     await wrapper.find('input').setValue('new value')
-    
+
     // Check that update:modelValue was emitted with correct value
     expect(wrapper.emitted('update:modelValue')).toBeTruthy()
     expect(wrapper.emitted('update:modelValue')[0]).toEqual(['new value'])
@@ -82,16 +82,16 @@ describe('FormInput', () => {
     const wrapper = shallowMount(FormInput, {
       props: {
         type: 'password',
-        togglePassword: true
-      }
+        togglePassword: true,
+      },
     })
-    
+
     // Find and click the toggle button
     const toggleButton = wrapper.find('.toggle-password')
     expect(toggleButton.exists()).toBe(true)
-    
+
     await toggleButton.trigger('click')
-    
+
     // Check that the event was emitted
     expect(wrapper.emitted('click:append-inner')).toBeTruthy()
   })
@@ -100,10 +100,10 @@ describe('FormInput', () => {
   it('applies disabled attribute when disabled prop is true', () => {
     const wrapper = shallowMount(FormInput, {
       props: {
-        disabled: true
-      }
+        disabled: true,
+      },
     })
-    
+
     expect(wrapper.find('input').element.disabled).toBe(true)
   })
 
@@ -112,10 +112,10 @@ describe('FormInput', () => {
     const customClass = 'custom-input-class'
     const wrapper = shallowMount(FormInput, {
       props: {
-        customClass
-      }
+        customClass,
+      },
     })
-    
+
     expect(wrapper.find('.form-input').classes()).toContain(customClass)
   })
 })

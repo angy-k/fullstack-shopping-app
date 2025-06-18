@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Auth;
 
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class CsrfProtectionTest extends TestCase
 {
@@ -32,10 +32,10 @@ class CsrfProtectionTest extends TestCase
     public function test_requests_with_csrf_token_succeed(): void
     {
         // First get the CSRF cookie
-        $response = $this->get('/api/auth/csrf-cookie');
-        $cookies = $response->headers->getCookies();
+        $response   = $this->get('/api/auth/csrf-cookie');
+        $cookies    = $response->headers->getCookies();
         $csrfCookie = null;
-        
+
         // Find the XSRF-TOKEN cookie
         foreach ($cookies as $cookie) {
             if ($cookie->getName() === 'XSRF-TOKEN') {
@@ -46,7 +46,7 @@ class CsrfProtectionTest extends TestCase
 
         // Create a user for login
         $user = User::factory()->create([
-            'email' => 'test@example.com',
+            'email'    => 'test@example.com',
             'password' => bcrypt('password123'),
         ]);
 
@@ -54,7 +54,7 @@ class CsrfProtectionTest extends TestCase
         $response = $this->withHeaders([
             'X-XSRF-TOKEN' => $csrfCookie,
         ])->postJson('/api/auth/login', [
-            'email' => 'test@example.com',
+            'email'    => 'test@example.com',
             'password' => 'password123',
         ]);
 
@@ -76,19 +76,19 @@ class CsrfProtectionTest extends TestCase
         // Verify that the auth/csrf-cookie route has web middleware
         // by checking that it sets a CSRF cookie
         $response = $this->get('/api/auth/csrf-cookie');
-        
+
         $response->assertStatus(200);
-        
-        $cookies = $response->headers->getCookies();
+
+        $cookies       = $response->headers->getCookies();
         $hasCsrfCookie = false;
-        
+
         foreach ($cookies as $cookie) {
             if ($cookie->getName() === 'XSRF-TOKEN') {
                 $hasCsrfCookie = true;
                 break;
             }
         }
-        
+
         $this->assertTrue($hasCsrfCookie, 'CSRF cookie was not set, indicating web middleware may not be applied correctly');
     }
 }

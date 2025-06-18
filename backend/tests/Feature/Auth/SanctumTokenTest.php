@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Auth;
 
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class SanctumTokenTest extends TestCase
 {
@@ -17,7 +17,7 @@ class SanctumTokenTest extends TestCase
     {
         // Create a user
         $user = User::factory()->create();
-        
+
         // Create a token for the user
         $token = $user->createToken('test-token')->plainTextToken;
 
@@ -29,8 +29,8 @@ class SanctumTokenTest extends TestCase
         // Assert response contains user data
         $response->assertStatus(200)
             ->assertJson([
-                'id' => $user->id,
-                'name' => $user->name,
+                'id'    => $user->id,
+                'name'  => $user->name,
                 'email' => $user->email,
             ]);
     }
@@ -74,7 +74,7 @@ class SanctumTokenTest extends TestCase
     {
         // Create a user
         $user = User::factory()->create();
-        
+
         // Create a token for the user
         $token = $user->createToken('test-token')->plainTextToken;
 

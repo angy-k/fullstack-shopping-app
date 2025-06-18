@@ -18,7 +18,7 @@ config.global.stubs = {
   'v-icon': true,
   'v-divider': true,
   'v-checkbox': true,
-  'router-link': true
+  'router-link': true,
 }
 
 // Mock window.matchMedia for Vuetify
@@ -33,7 +33,7 @@ Object.defineProperty(window, 'matchMedia', {
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
-  }))
+  })),
 })
 
 // Mock ResizeObserver
@@ -41,9 +41,9 @@ global.ResizeObserver = class ResizeObserver {
   constructor(callback) {
     this.callback = callback
   }
-  observe() { }
-  unobserve() { }
-  disconnect() { }
+  observe() {}
+  unobserve() {}
+  disconnect() {}
 }
 
 // Mock IntersectionObserver
@@ -51,9 +51,9 @@ global.IntersectionObserver = class IntersectionObserver {
   constructor(callback) {
     this.callback = callback
   }
-  observe() { }
-  unobserve() { }
-  disconnect() { }
+  observe() {}
+  unobserve() {}
+  disconnect() {}
 }
 
 // Mock Vue Router
@@ -63,29 +63,38 @@ vi.mock('vue-router', () => ({
     replace: vi.fn(),
     go: vi.fn(),
     back: vi.fn(),
-    forward: vi.fn()
+    forward: vi.fn(),
   }),
   useRoute: () => ({
     path: '/',
     query: {},
     params: {},
     name: 'Home',
-    meta: {}
-  })
+    meta: {},
+  }),
 }))
 
 // Mock Pinia
 vi.mock('pinia', () => ({
   defineStore: vi.fn(),
   createPinia: vi.fn(),
-  setActivePinia: vi.fn()
+  setActivePinia: vi.fn(),
 }))
 
 // Mock components
 vi.mock('@/components/global/FormInput.vue', () => ({
   default: {
     name: 'FormInput',
-    props: ['modelValue', 'label', 'type', 'rules', 'variant', 'prependIcon', 'togglePassword', 'autocomplete'],
+    props: [
+      'modelValue',
+      'label',
+      'type',
+      'rules',
+      'variant',
+      'prependIcon',
+      'togglePassword',
+      'autocomplete',
+    ],
     template: `
       <div class="form-input" data-testid="form-input" :data-label="label" :data-type="type">
         <input 
@@ -95,17 +104,22 @@ vi.mock('@/components/global/FormInput.vue', () => ({
         />
       </div>
     `,
-    emits: ['update:modelValue']
-  }
+    emits: ['update:modelValue'],
+  },
 }))
 
 // Silence console warnings/errors during tests
+/* eslint-disable no-console */
 const originalConsoleError = console.error
 const originalConsoleWarn = console.warn
+/* eslint-enable no-console */
 
-console.error = (...args) => {
+// Custom error handler that filters out common Vue/Vuetify warnings
+const customErrorHandler = (...args) => {
   if (
-    args[0]?.includes?.('Vue received a Component which was made a reactive object') ||
+    args[0]?.includes?.(
+      'Vue received a Component which was made a reactive object',
+    ) ||
     args[0]?.includes?.('[Vuetify]') ||
     args[0]?.includes?.('Could not find injected')
   ) {
@@ -114,9 +128,12 @@ console.error = (...args) => {
   originalConsoleError(...args)
 }
 
-console.warn = (...args) => {
+// Custom warning handler that filters out common Vue/Vuetify warnings
+const customWarnHandler = (...args) => {
   if (
-    args[0]?.includes?.('Vue received a Component which was made a reactive object') ||
+    args[0]?.includes?.(
+      'Vue received a Component which was made a reactive object',
+    ) ||
     args[0]?.includes?.('[Vuetify]') ||
     args[0]?.includes?.('Could not find injected')
   ) {
@@ -124,3 +141,9 @@ console.warn = (...args) => {
   }
   originalConsoleWarn(...args)
 }
+
+// Override console methods with custom handlers
+/* eslint-disable no-console */
+console.error = customErrorHandler
+console.warn = customWarnHandler
+/* eslint-enable no-console */

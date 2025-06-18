@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Auth;
 
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
@@ -17,13 +17,13 @@ class AuthenticationTest extends TestCase
     {
         // Create a user
         $user = User::factory()->create([
-            'email' => 'test@example.com',
+            'email'    => 'test@example.com',
             'password' => bcrypt('password123'),
         ]);
 
         // Attempt to login
         $response = $this->postJson('/api/auth/login', [
-            'email' => 'test@example.com',
+            'email'    => 'test@example.com',
             'password' => 'password123',
         ]);
 
@@ -39,7 +39,7 @@ class AuthenticationTest extends TestCase
                 ],
                 'token',
             ]);
-        
+
         // Verify token exists and is a string
         $this->assertIsString($response->json('token'));
     }
@@ -51,13 +51,13 @@ class AuthenticationTest extends TestCase
     {
         // Create a user
         $user = User::factory()->create([
-            'email' => 'test@example.com',
+            'email'    => 'test@example.com',
             'password' => bcrypt('password123'),
         ]);
 
         // Attempt to login with wrong password
         $response = $this->postJson('/api/auth/login', [
-            'email' => 'test@example.com',
+            'email'    => 'test@example.com',
             'password' => 'wrongpassword',
         ]);
 
@@ -73,7 +73,7 @@ class AuthenticationTest extends TestCase
     {
         // Create a user
         $user = User::factory()->create();
-        
+
         // Create a token for the user
         $token = $user->createToken('test-token')->plainTextToken;
 
@@ -87,7 +87,7 @@ class AuthenticationTest extends TestCase
             ->assertJson([
                 'message' => 'Logged out successfully',
             ]);
-        
+
         // Verify token is deleted
         $this->assertCount(0, $user->tokens);
     }
@@ -99,7 +99,7 @@ class AuthenticationTest extends TestCase
     {
         // Create a user
         $user = User::factory()->create();
-        
+
         // Create a token for the user
         $token = $user->createToken('test-token')->plainTextToken;
 
@@ -111,8 +111,8 @@ class AuthenticationTest extends TestCase
         // Assert response
         $response->assertStatus(200)
             ->assertJson([
-                'id' => $user->id,
-                'name' => $user->name,
+                'id'    => $user->id,
+                'name'  => $user->name,
                 'email' => $user->email,
             ]);
     }
@@ -142,7 +142,7 @@ class AuthenticationTest extends TestCase
             ->assertJson([
                 'message' => 'CSRF cookie set',
             ]);
-        
+
         // Check that the cookie is set
         $this->assertNotNull($response->headers->getCookies());
     }

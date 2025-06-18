@@ -1,6 +1,5 @@
 import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
-import { fileURLToPath } from 'node:url'
 import { resolve } from 'path'
 
 export default defineConfig({
@@ -10,13 +9,13 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./tests/setup.js'],
     deps: {
-      inline: ['vuetify']
+      inline: ['vuetify'],
     },
-    root: '.'
+    root: '.',
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
+      '@': resolve(__dirname, './src'),
     },
   },
 })

@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint \"**/*.{js,vue,cjs,mjs}\"",
+    "lint:fix": "eslint \"**/*.{js,vue,cjs,mjs}\" --fix",
     "format": "prettier --write \"src/**/*.{js,vue,json,css,scss,md}\"",
+    "fix": "npm run lint:fix && npm run format",
     "test": "vitest run",
     "test:watch": "vitest"
   },

@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Auth;
 
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
@@ -16,9 +16,9 @@ class RegistrationTest extends TestCase
     public function test_user_can_register_with_valid_data(): void
     {
         $userData = [
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => 'Password123!',
+            'name'                  => 'Test User',
+            'email'                 => 'test@example.com',
+            'password'              => 'Password123!',
             'password_confirmation' => 'Password123!',
         ];
 
@@ -38,7 +38,7 @@ class RegistrationTest extends TestCase
 
         // Verify user was created in the database
         $this->assertDatabaseHas('users', [
-            'name' => 'Test User',
+            'name'  => 'Test User',
             'email' => 'test@example.com',
         ]);
 
@@ -59,9 +59,9 @@ class RegistrationTest extends TestCase
 
         // Invalid email
         $response = $this->postJson('/api/auth/register', [
-            'name' => 'Test User',
-            'email' => 'not-an-email',
-            'password' => 'Password123!',
+            'name'                  => 'Test User',
+            'email'                 => 'not-an-email',
+            'password'              => 'Password123!',
             'password_confirmation' => 'Password123!',
         ]);
 
@@ -70,9 +70,9 @@ class RegistrationTest extends TestCase
 
         // Password confirmation doesn't match
         $response = $this->postJson('/api/auth/register', [
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => 'Password123!',
+            'name'                  => 'Test User',
+            'email'                 => 'test@example.com',
+            'password'              => 'Password123!',
             'password_confirmation' => 'DifferentPassword123!',
         ]);
 
@@ -91,9 +91,9 @@ class RegistrationTest extends TestCase
         ]);
 
         $response = $this->postJson('/api/auth/register', [
-            'name' => 'Test User',
-            'email' => 'existing@example.com',
-            'password' => 'Password123!',
+            'name'                  => 'Test User',
+            'email'                 => 'existing@example.com',
+            'password'              => 'Password123!',
             'password_confirmation' => 'Password123!',
         ]);
 
