@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Public product routes
-// Public product routes
-Route::get('products', function () {
-    return response()->json(['message' => 'Products API endpoint']);
-});
+Route::get('products', [ProductController::class, 'index']);
+Route::get('products/{id}', [ProductController::class, 'show']);
