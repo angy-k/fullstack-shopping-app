@@ -8,7 +8,7 @@
         ></v-skeleton-loader>
       </v-col>
     </v-row>
-    
+
     <template v-else-if="product">
       <v-row>
         <v-col cols="12">
@@ -23,7 +23,7 @@
           </v-btn>
         </v-col>
       </v-row>
-      
+
       <v-row>
         <v-col cols="12" md="6">
           <v-img
@@ -35,31 +35,30 @@
           >
             <template v-slot:placeholder>
               <div class="d-flex align-center justify-center fill-height">
-                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                ></v-progress-circular>
               </div>
             </template>
           </v-img>
         </v-col>
-        
+
         <v-col cols="12" md="6">
           <h1 class="text-h4 mb-2">{{ product.title }}</h1>
-          
-          <v-chip
-            color="primary"
-            class="mb-4"
-            size="small"
-          >
+
+          <v-chip color="primary" class="mb-4" size="small">
             {{ product.category.name }}
           </v-chip>
-          
+
           <div class="text-h5 mb-4 font-weight-bold">
             ${{ product.price.toFixed(2) }}
           </div>
-          
+
           <div class="mb-6">
             <p class="text-body-1">{{ product.description }}</p>
           </div>
-          
+
           <div class="d-flex align-center mb-6">
             <span class="text-subtitle-1 mr-4">Quantity:</span>
             <v-text-field
@@ -72,12 +71,12 @@
               hide-details
               class="mr-4"
             ></v-text-field>
-            
+
             <span class="text-caption">
               {{ product.stock_quantity }} in stock
             </span>
           </div>
-          
+
           <v-btn
             color="primary"
             size="large"
@@ -90,13 +89,13 @@
         </v-col>
       </v-row>
     </template>
-    
+
     <v-row v-else>
       <v-col cols="12">
         <v-alert type="error">
           Product not found or an error occurred.
         </v-alert>
-        
+
         <v-btn
           prepend-icon="mdi-arrow-left"
           variant="text"
@@ -112,41 +111,41 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { useProductStore } from '@/stores/product';
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useProductStore } from '@/stores/product'
 
-const route = useRoute();
-const productStore = useProductStore();
+const route = useRoute()
+const productStore = useProductStore()
 
-const product = ref(null);
-const loading = ref(true);
-const quantity = ref(1);
+const product = ref(null)
+const loading = ref(true)
+const quantity = ref(1)
 
 const fetchProduct = async () => {
-  loading.value = true;
-  
+  loading.value = true
+
   try {
-    const response = await productStore.fetchProduct(route.params.id);
-    product.value = response.data;
+    const response = await productStore.fetchProduct(route.params.id)
+    product.value = response.data
   } catch (error) {
-    console.error('Error fetching product details:', error);
+    console.error('Error fetching product details:', error)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 
 const addToCart = () => {
   // This would be implemented when we add cart functionality
   console.log('Add to cart:', {
     productId: product.value.id,
-    quantity: quantity.value
-  });
-};
+    quantity: quantity.value,
+  })
+}
 
 onMounted(() => {
-  fetchProduct();
-});
+  fetchProduct()
+})
 </script>
 
 <style scoped>

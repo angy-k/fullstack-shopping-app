@@ -9,7 +9,7 @@ import { useRoute, useRouter } from 'vue-router'
 export function useUrlFilters(defaultFilters = {}) {
   const route = useRoute()
   const router = useRouter()
-  
+
   // Initialize filters with defaults
   const filters = ref({
     category: null,
@@ -21,54 +21,61 @@ export function useUrlFilters(defaultFilters = {}) {
     sortDir: null,
     page: 1,
     perPage: 12,
-    ...defaultFilters
+    ...defaultFilters,
   })
-  
+
   /**
    * Update URL with current filters
    */
   const updateUrlFromFilters = () => {
     const cleanFilters = {}
-    
+
     Object.entries(filters.value).forEach(([key, value]) => {
       // Keep 0 values for minPrice
       if (key === 'minPrice' && (value === 0 || value === '0')) {
         cleanFilters[key] = value
         return
       }
-      
+
       // Skip null, undefined, or empty string values
       if (value === null || value === undefined || value === '') {
         return
       }
-      
+
       cleanFilters[key] = value
     })
-    
+
     // Update URL without triggering a navigation
-    router.replace({ 
-      query: cleanFilters 
-    }, { preserveState: true })
+    router.replace(
+      {
+        query: cleanFilters,
+      },
+      { preserveState: true },
+    )
   }
-  
+
   /**
    * Update filters from URL query parameters
    */
   const updateFiltersFromUrl = () => {
     const query = route.query
-    
+
     // Update filters from URL query parameters
     if (query.category) filters.value.category = query.category
-    if (query.minPrice !== undefined) filters.value.minPrice = Number(query.minPrice)
-    if (query.maxPrice !== undefined) filters.value.maxPrice = Number(query.maxPrice)
-    if (query.minStock !== undefined) filters.value.minStock = Number(query.minStock)
+    if (query.minPrice !== undefined)
+      filters.value.minPrice = Number(query.minPrice)
+    if (query.maxPrice !== undefined)
+      filters.value.maxPrice = Number(query.maxPrice)
+    if (query.minStock !== undefined)
+      filters.value.minStock = Number(query.minStock)
     if (query.search !== undefined) filters.value.search = query.search
     if (query.sortBy !== undefined) filters.value.sortBy = query.sortBy
     if (query.sortDir !== undefined) filters.value.sortDir = query.sortDir
     if (query.page !== undefined) filters.value.page = Number(query.page)
-    if (query.perPage !== undefined) filters.value.perPage = Number(query.perPage)
+    if (query.perPage !== undefined)
+      filters.value.perPage = Number(query.perPage)
   }
-  
+
   /**
    * Update a single filter value
    * @param {string} key - Filter key
@@ -80,7 +87,7 @@ export function useUrlFilters(defaultFilters = {}) {
       updateUrlFromFilters()
     }
   }
-  
+
   /**
    * Reset all filters to default values
    */
@@ -94,35 +101,35 @@ export function useUrlFilters(defaultFilters = {}) {
         filters.value[key] = null
       }
     })
-    
+
     // Apply any custom defaults
     if (defaultFilters) {
       Object.entries(defaultFilters).forEach(([key, value]) => {
         filters.value[key] = value
       })
     }
-    
+
     updateUrlFromFilters()
   }
-  
+
   // Watch for route query changes
   watch(
     () => route.query,
     () => {
       updateFiltersFromUrl()
     },
-    { deep: true }
+    { deep: true },
   )
-  
+
   // Initialize filters from URL on mount
   onMounted(() => {
     updateFiltersFromUrl()
   })
-  
+
   return {
     filters,
     updateFilter,
     resetFilters,
-    updateUrlFromFilters
+    updateUrlFromFilters,
   }
 }

@@ -85,17 +85,17 @@ export const api = {
   get: (endpoint, options = {}, noCache = true) => {
     // Add cache prevention headers if noCache is true
     const headers = options.headers || {}
-    
+
     if (noCache) {
       headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
       headers['Pragma'] = 'no-cache'
       headers['Expires'] = '0'
     }
-    
-    return apiRequest(endpoint, { 
-      ...options, 
+
+    return apiRequest(endpoint, {
+      ...options,
       headers,
-      method: 'GET' 
+      method: 'GET',
     })
   },
 

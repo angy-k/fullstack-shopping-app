@@ -10,23 +10,30 @@
     >
       <template v-slot:placeholder>
         <div class="d-flex align-center justify-center fill-height">
-          <v-progress-circular indeterminate color="primary"></v-progress-circular>
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
         </div>
       </template>
     </v-img>
-    
+
     <v-card-item>
-      <v-card-title class="text-subtitle-1 text-truncate">{{ product.title }}</v-card-title>
+      <v-card-title class="text-subtitle-1 text-truncate">{{
+        product.title
+      }}</v-card-title>
       <v-card-subtitle>
-        <v-chip size="small" color="primary" class="mr-2">{{ product.category.name }}</v-chip>
+        <v-chip size="small" color="primary" class="mr-2">{{
+          product.category.name
+        }}</v-chip>
         <span class="font-weight-bold">${{ product.price.toFixed(2) }}</span>
       </v-card-subtitle>
     </v-card-item>
-    
+
     <v-card-text class="product-description">
       <div class="text-truncate-2">{{ product.description }}</div>
     </v-card-text>
-    
+
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
@@ -42,25 +49,27 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps } from 'vue'
 
 const props = defineProps({
   product: {
     type: Object,
-    required: true
-  }
-});
+    required: true,
+  },
+})
 
-const addToCart = (event) => {
-  event.preventDefault();
+const addToCart = event => {
+  event.preventDefault()
   // This would be implemented when we add cart functionality
-  console.log('Add to cart:', props.product.id);
-};
+  console.log('Add to cart:', props.product.id)
+}
 </script>
 
 <style scoped>
 .product-card {
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .product-card:hover {

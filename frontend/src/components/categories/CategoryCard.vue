@@ -30,11 +30,11 @@ defineProps({
   category: {
     type: Object,
     required: true,
-    validator: (value) => {
-      return value && value.id && value.name;
-    }
-  }
-});
+    validator: value => {
+      return value && value.id && value.name
+    },
+  },
+})
 </script>
 
 <style scoped>

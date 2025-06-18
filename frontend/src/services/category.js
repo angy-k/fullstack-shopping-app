@@ -13,9 +13,9 @@ export const categoryService = {
    */
   getCategories: async () => {
     // Add timestamp to prevent caching
-    const timestamp = new Date().getTime();
-    return api.get(`/categories?_=${timestamp}`);
+    const timestamp = new Date().getTime()
+    return api.get(`/categories?_=${timestamp}`)
   },
-};
+}
 
-export default categoryService;
+export default categoryService

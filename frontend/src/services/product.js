@@ -15,31 +15,51 @@ export const productService = {
   getProducts: async (params = {}) => {
     // Filter out null, undefined, and empty string values
     const cleanParams = {}
-    
+
     // Handle category parameter
-    if (params.category !== undefined && params.category !== null && params.category !== '') {
+    if (
+      params.category !== undefined &&
+      params.category !== null &&
+      params.category !== ''
+    ) {
       cleanParams.category = params.category
     }
-    
+
     // Handle price filtering
-    if (params.minPrice !== undefined && params.minPrice !== null && params.minPrice !== '') {
+    if (
+      params.minPrice !== undefined &&
+      params.minPrice !== null &&
+      params.minPrice !== ''
+    ) {
       cleanParams.minPrice = params.minPrice
     }
-    
-    if (params.maxPrice !== undefined && params.maxPrice !== null && params.maxPrice !== '') {
+
+    if (
+      params.maxPrice !== undefined &&
+      params.maxPrice !== null &&
+      params.maxPrice !== ''
+    ) {
       cleanParams.maxPrice = params.maxPrice
     }
-    
+
     // Handle stock filtering
-    if (params.minStock !== undefined && params.minStock !== null && params.minStock !== '') {
+    if (
+      params.minStock !== undefined &&
+      params.minStock !== null &&
+      params.minStock !== ''
+    ) {
       cleanParams.minStock = params.minStock
     }
-    
+
     // Handle search
-    if (params.search !== undefined && params.search !== null && params.search !== '') {
+    if (
+      params.search !== undefined &&
+      params.search !== null &&
+      params.search !== ''
+    ) {
       cleanParams.search = params.search
     }
-    
+
     // Handle sorting
     if (params.sortBy) {
       cleanParams.sortBy = params.sortBy
@@ -47,28 +67,28 @@ export const productService = {
         cleanParams.sortDir = params.sortDir
       }
     }
-    
+
     // Handle pagination
     if (params.page) {
       cleanParams.page = params.page
     }
-    
+
     if (params.perPage) {
       cleanParams.perPage = params.perPage
     }
-    
+
     // Convert params to URLSearchParams for query string
     const queryParams = new URLSearchParams()
     for (const [key, value] of Object.entries(cleanParams)) {
       queryParams.append(key, value)
     }
-    
+
     // Add a timestamp to prevent caching
     queryParams.append('_t', Date.now())
-    
+
     const queryString = queryParams.toString()
     const endpoint = queryString ? `products?${queryString}` : 'products'
-    
+
     // Use no-cache headers to prevent caching
     return api.get(endpoint, {}, true)
   },
@@ -78,7 +98,7 @@ export const productService = {
    * @param {number|string} id - Product ID
    * @returns {Promise<Object>} - Product data
    */
-  getProduct: (id) => {
+  getProduct: id => {
     return api.get(`products/${id}`)
   },
 
