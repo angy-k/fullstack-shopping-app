@@ -29,28 +29,6 @@ export const useCategoryStore = defineStore('category', {
       } finally {
         this.loading = false;
       }
-    },
-    
-    /**
-     * Fetch a single category by ID
-     * @param {number|string} id - Category ID
-     * @returns {Promise} - API response
-     */
-    async fetchCategory(id) {
-      this.loading = true;
-      this.error = null;
-      
-      try {
-        const response = await categoryService.getCategory(id);
-        this.category = response.data.data || response.data;
-        return response;
-      } catch (error) {
-        this.error = error.message || 'Failed to fetch category';
-        console.error(`Error fetching category ${id}:`, error);
-        throw error;
-      } finally {
-        this.loading = false;
-      }
     }
   }
 });

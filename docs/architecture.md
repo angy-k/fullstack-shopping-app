@@ -161,4 +161,14 @@ fullstack-shopping-app/
   - Password Reset: Email sending, token validation, password updating
   - Sanctum Token: Token validation, protected route access
   - CSRF Protection: Cookie setting, token validation
+  - Product API: Listing, filtering, and detail retrieval
+  - Category API: Listing all categories
+  - Import Command: Product import from external sources
+
+- **Unit Tests**: Focused tests for individual components
+  - Repository Pattern: Testing data access layer functionality
+  - Controllers: Testing request handling and response formatting
+  - QueryParamsTransformer: Transforms user-friendly query parameters into Spatie QueryBuilder format
+
+- **Test Attributes**: Using PHP 8 attributes for test methods instead of doc-comment annotations
 - **Database**: Uses RefreshDatabase trait for clean test environment
