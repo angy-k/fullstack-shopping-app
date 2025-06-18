@@ -22,6 +22,9 @@
 
       <v-spacer class="preview-divider"></v-spacer>
 
+      <!-- Cart icon with badge -->
+      <cart-icon />
+      
       <!-- Theme toggle -->
       <theme-toggle />
 
@@ -49,6 +52,7 @@ import { computed } from 'vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import NavMenu from '@/components/NavMenu.vue'
 import UserMenu from '@/components/UserMenu.vue'
+import CartIcon from '@/components/cart/CartIcon.vue'
 import { useAuthStore } from '@/stores/auth'
 import AppLogo from '@/components/ui/AppLogo.vue'
 

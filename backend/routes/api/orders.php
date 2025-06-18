@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Protected order routes
-Route::group(['middleware' => ['auth:sanctum'], 'namespace' => 'Api'], function () {
-    Route::get('orders', function () {
-        return response()->json(['message' => 'Orders API endpoint']);
-    });
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    // Order management routes
+    Route::get('orders', [OrderController::class, 'index']);
+    Route::get('orders/{id}', [OrderController::class, 'show']);
+    Route::post('orders', [OrderController::class, 'store']);
+    Route::patch('orders/{id}/cancel', [OrderController::class, 'cancel']);
 });

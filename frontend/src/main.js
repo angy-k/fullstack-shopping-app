@@ -12,8 +12,9 @@ import { createPinia } from 'pinia'
 // Router
 import router from './router'
 
-// Auth store
+// Stores
 import { useAuthStore } from './stores/auth'
+import { useCartStore } from './stores/cart'
 
 // Global components registration utility
 import { registerGlobalComponents } from './utils/globalComponents'
@@ -28,8 +29,14 @@ app.use(vuetify)
 // Register global components automatically
 registerGlobalComponents(app)
 
-// Initialize auth store before mounting the app
+// Initialize stores before mounting the app
 const authStore = useAuthStore(pinia)
+const cartStore = useCartStore(pinia)
+
+// Initialize auth store
 authStore.init()
+
+// Initialize cart store (loads from localStorage)
+cartStore.loadFromLocalStorage()
 
 app.mount('#app')

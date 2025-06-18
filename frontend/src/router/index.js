@@ -57,6 +57,23 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: () => import('@/views/CartView.vue'),
+    meta: {
+      layout: 'AppLayout',
+    },
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: () => import('@/views/CheckoutView.vue'),
+    meta: {
+      layout: 'AppLayout',
+      requiresAuth: true,
+    },
+  },
 
   // Guest-only routes with empty layout
   {
